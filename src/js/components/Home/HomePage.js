@@ -1,10 +1,5 @@
 import React from 'react'
-
 import ReactDOM from 'react-dom'
-import { Layout, Menu, Breadcrumb } from 'antd';
-const { Header, Content, Footer } = Layout;
-
-import 'antd/dist/antd.css'
 import './home.css'
 
 class Home extends React.Component {

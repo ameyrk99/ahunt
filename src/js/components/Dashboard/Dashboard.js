@@ -28,6 +28,19 @@ const participants = [
 
 const totalSteps = 10
 
+const steps = [
+    'Step 1',
+    'Step 2',
+    'Step 3',
+    'Step 4',
+    'Step 5',
+    'Step 6',
+    'Step 7',
+    'Step 8',
+    'Step 9',
+    'Destination',
+]
+
 class Hunt extends React.Component {
 
     render() {
@@ -44,23 +57,56 @@ class Hunt extends React.Component {
 
                         {participants.map((parts) => {
                             return (
-                                <p key={parts.id}>
+                                <div key={parts.id}>
                                     <div style={{
                                         paddingLeft: "1%",
                                         paddingTop: "1%"
                                     }}>
                                         {parts.name}:<br />
-                                        <p style={{ paddingLeft: "1%" }}>Current Step: {parts.currentStep}</p>
-                                        <div class="progress">
+                                        <p style={{ paddingLeft: "1%" }}>Current Step: {parts.currentStep} {steps[parts.currentStep - 1]}</p>
+
+                                        {/* {
+                                            if(parts.currentStep === totalSteps) {
+                                                const bar = "progress-bar bg-success"
+                                            } else {
+                                                const bar = "progress-bar progress-bar-striped progress-bar-animated"
+                                            }
+                                        } */}
+
+                                        {parts.currentStep === totalSteps &&
+                                            <div class="progress">
+                                                <div class="progress-bar bg-success" role="progressbar" style={{
+                                                    width: "100%",
+                                                    ariaValuenow: 40,
+                                                    ariaValuemin: 0,
+                                                    ariaValuemax: 100
+                                                }}></div>
+                                            </div>
+
+                                        }
+
+                                        {parts.currentStep != totalSteps &&
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style={{
+                                                    width: parts.currentStep * 1000 / totalSteps,
+                                                    ariaValuenow: 40,
+                                                    ariaValuemin: 0,
+                                                    ariaValuemax: 100
+                                                }}></div>
+                                            </div>
+
+                                        }
+
+                                        {/* <div class="progress">
                                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style={{
-                                                width: parts.currentStep*100/totalSteps,
+                                                width: parts.currentStep * 1000 / totalSteps,
                                                 ariaValuenow: 40,
                                                 ariaValuemin: 0,
                                                 ariaValuemax: 100
                                             }}></div>
-                                        </div>
+                                        </div> */}
                                     </div>
-                                </p>
+                                </div>
                             )
                         }
                         )}
