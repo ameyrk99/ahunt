@@ -51,8 +51,7 @@ class Register extends React.Component {
         })
         .then( () => {
             const updatedUser = firebase.auth().currentUser
-            localStorage.setItem('currentUserData', JSON.stringify(updatedUser))
-            this.setState({registrationSuccess: true})
+            this.addNameToDatabase(uid, name)
         })
         .catch( (error) => {
             this.setState({registrationFail: true, registrationFailMessage: 'unable to add display name'})
@@ -60,9 +59,21 @@ class Register extends React.Component {
         })
     }
 
+    addNameToDatabase = (uid, name) => {
+        firebase.database().ref('users').child(uid)
+            .update({
+                name: name
+            })
+            .then( () => this.setState({registrationSuccess: true}) )
+            .catch( (error) => {
+                console.log('unable to add name to database', error)
+                this.setState({creatingAccount: false, creatingAccountError: true})
+            })
+    }
+
     checkIfSignedIn = () => {
         firebase.auth().onAuthStateChanged( (user) => {
-            if (user) {
+            if (user && user.displayName) {
               this.setState({registrationSuccess: true})
             }
           })
