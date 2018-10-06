@@ -1,0 +1,19 @@
+{
+  "name": "khunt",
+  "version": "1.0.0",
+  "description": "Kahoot With Scavenger Hunt",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://ondikumana@github.com/ameyrk99/khunt.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ameyrk99/khunt/issues"
+  },
+  "homepage": "https://github.com/ameyrk99/khunt#readme"
+}
