@@ -1,15 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Button } from 'antd';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'
+import Layout from "./Layout"
+import { HashRouter } from 'react-router-dom'
 
 const app = document.getElementById('root')
 ReactDOM.render(
-   <div>
-       Olivier is Awesome
-
-       <Button type="primary">Button</Button>
-   </div>
+    
+    <HashRouter>
+        <Layout />
+    </HashRouter>
 
     , app);
 
