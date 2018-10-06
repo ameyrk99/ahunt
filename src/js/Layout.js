@@ -4,7 +4,7 @@ import HomePage from './components/Home/HomePage'
 import Register from './components/Register/Register'
 import Login from './components/Login/Login'
 import Dashboard from "./components/Dashboard/Dashboard"
-
+import './bootstrap.css'
 
 const Layout = () =>
 

@@ -5,7 +5,6 @@ import { Layout, Menu, Breadcrumb } from 'antd';
 const { Header, Content, Footer } = Layout;
 
 import 'antd/dist/antd.css'
-import './bootstrap.css'
 import './home.css'
 
 class Home extends React.Component {
@@ -18,7 +17,7 @@ class Home extends React.Component {
                     <div className="row options">
                         <div className="col-lg-4"></div>
                         <div className="col-lg-2">
-                            <a href="#">
+                            <a href="/login">
                                 <div class="card rounded">
                                     <div class="card-body card-button">
                                         <h3>Create Hunt</h3>
@@ -50,7 +49,7 @@ class Home extends React.Component {
                         </div>
                     </div>
 
-                    <br/><br/>
+                    <br /><br />
 
                     <div class="card rounded">
                         <div class="card-body">

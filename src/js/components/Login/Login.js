@@ -7,7 +7,7 @@ class Login extends React.Component {
         email: '',
         password: '',
         loading: false,
-        authenticationFail: false,
+        authenticationFail: false, 
         authenticationFailMessage: null,
         authenticationSuccess: false
     }
