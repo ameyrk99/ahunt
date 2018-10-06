@@ -11,7 +11,7 @@ ReactDOM.render(
         <Layout />
     </HashRouter>
 
-    , app);
+    , app)
 
 // ReactDOM.render(<App />, document.getElementById('root'));
 // registerServiceWorker();
