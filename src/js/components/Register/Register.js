@@ -60,7 +60,7 @@ class Register extends React.Component {
     }
 
     addNameToDatabase = (uid, name) => {
-        firebase.database().ref('users').child(uid)
+        firebase.database().ref('users').child(uid).child('credentials')
             .update({
                 name: name
             })
