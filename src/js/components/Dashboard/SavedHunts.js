@@ -43,7 +43,8 @@ class SavedHunts extends React.Component {
                                 huntId={savedHunts[hunt].id} 
                                 huntName={savedHunts[hunt].hunt_name} 
                                 huntDes={savedHunts[hunt].hunt_description} 
-                                uid={uid} /> 
+                                uid={uid} 
+                                /> 
                         )
                     })}
             </div>

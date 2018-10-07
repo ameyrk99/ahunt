@@ -50,7 +50,7 @@ class Dashboard extends React.Component {
     }
 
     checkIfActiveHunt = () => {
-        console.log(this.state.uid)
+        console.log('check if active hunt fired')
         const ref = firebase.database().ref("users").child(this.state.uid).child("hunts").child("active")
         ref.once('value')
             .then((snapShot) => {
@@ -164,7 +164,7 @@ class Dashboard extends React.Component {
                     <div>
                         <Step huntID={huntID} uid={uid} changeActiveMenu={ (activeMenu) => this.setState({activeMenu: activeMenu})}/>
                         <br /><br />
-                        <HuntSteps huntID={huntID} uid={uid} />
+                        <HuntSteps huntID={huntID} uid={uid}/>
                     </div>
                 }
             </div>

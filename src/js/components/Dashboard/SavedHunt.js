@@ -77,7 +77,9 @@ class SavedHunt extends React.Component {
             .update({
                 status: 'ended'
             })
-            .then( () => this.setState({buttonAction: 'Initiate'}))
+            .then( () => {
+                this.setState({buttonAction: 'Initiate', code: null})
+            })
     }
 
     fetchCodeAndStatus = () => {
@@ -87,8 +89,10 @@ class SavedHunt extends React.Component {
                 if (snapshot.child('hunt_id').val() == this.props.huntId) {
                     const status = snapshot.child('status').val()
                     let buttonAction
+                    let code = snapshot.child('hunt_code').val()
                     if (!status || status == 'ended') {
                         buttonAction='Initiate'
+                        code=null
                     }
                     if (status == 'initiated') {
                         buttonAction='Start'
@@ -98,7 +102,7 @@ class SavedHunt extends React.Component {
                     }
                     this.setState({
                         status: status,
-                        code: snapshot.child('hunt_code').val(),
+                        code: code,
                         buttonAction: buttonAction
                     })
                 }
@@ -129,7 +133,7 @@ class SavedHunt extends React.Component {
                             <p>{huntDes}</p>
                             <QRPage uid={uid} huntID={huntId}/>
                         </div>
-                         {code && 
+                         {code && (buttonAction != 'Initiate' || buttonAction != 'End') &&
                             <div>Code: {code}</div>
                         }
                         
