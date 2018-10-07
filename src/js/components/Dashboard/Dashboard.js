@@ -55,7 +55,7 @@ class Dashboard extends React.Component {
         ref.once('value')
             .then((snapShot) => {
                 console.log(snapShot.val())
-                if (snapShot.exists() && (snapShot.val() != 'ended' || !snapShot.val() ))  {
+                if (snapShot.exists() && (snapShot.child('status').val() != 'ended' || !snapShot.child('status').val() ))  {
                     this.setState({
                         activeHuntId: snapShot.child('hunt_id').val(),
                         activeHunt: true,
