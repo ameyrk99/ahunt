@@ -50,7 +50,6 @@ class Register extends React.Component {
             displayName: name
         })
             .then(() => {
-                const updatedUser = firebase.auth().currentUser
                 this.addNameToDatabase(uid, name)
             })
             .catch((error) => {
