@@ -114,7 +114,7 @@ class Dashboard extends React.Component {
                 {this.state.activeMenu == 'hunts' &&
                     <SavedHunts uid={uid}/> 
                 }
-                {(this.state.activeMenu=='newHunt' && !this.state.activeHunt) || (this.state.activeMenu == 'noActiveHunt') &&
+                {(this.state.activeMenu=='newHunt' || this.state.activeMenu=='noActiveHunt' || (!this.state.activeHunt && this.state.activeMenu == 'activeHunt')) &&
                     <div style={{
                         paddingTop: "2%"
                     }}>
@@ -139,20 +139,6 @@ class Dashboard extends React.Component {
                                 </fieldset>
                             </form>
                             <br/><br/>
-        
-                            {/* {huntCreated &&
-                                <div class="alert alert-dismissible alert-success">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <strong>Hunt Created</strong> Add Steps: <a href="#" class="alert-link"></a>.
-                              </div>
-                            }
-        
-                            {huntCreationFail &&
-                                <div class="alert alert-dismissible alert-danger">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <strong>Oh snap!</strong> Hunt Creation Failed
-                              </div>
-                            } */}
                             </div>
                         </div>
                     </div>

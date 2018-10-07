@@ -26,7 +26,7 @@ class Step extends React.Component {
     }
 
     submitStep = () => {
-        const {stepName, stepHint, stepImage, stepFeedback} = this.state
+        const {stepName, stepHint, stepImage, stepFeedback, order} = this.state
         const { uid, huntID } = this.props
         console.log(uid, huntID)
         // if(!uid || !huntId) {
