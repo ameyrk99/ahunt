@@ -1,10 +1,23 @@
 import React from 'react'
 import axios from 'axios'
+import firebase from '../../firebase/firebase'
 
 class SavedHunt extends React.Component {
 
-    startHunt = (uid, huntId) => {
-        this.setState({ checkingCode: true })
+    state = {
+        checkingCode: false,
+        code: null,
+        status: null,
+        buttonAction: 'Initiate'
+
+    }
+
+    initiateHunt = (uid, huntId) => {
+        this.setState({ 
+            checkingCode: true, 
+            code: null,
+            buttonAction: '...'
+        })
 
         console.log(uid, huntId)
 
@@ -18,23 +31,15 @@ class SavedHunt extends React.Component {
                 if (response.data) {
                     console.log(response.data)
                     this.setState({
-                        huntCreatorId: response.data.huntCreatorId,
-                        huntCreatorName: response.data.huntCreatorName,
-                        huntId: response.data.huntId,
-
-                        huntName: response.data.huntName,
-                        huntDescription: response.data.huntDescription,
-                        huntSteps: response.data.stepsCount,
-
-                        isCodeValid: true,
-                        checkingCode: false
+                        code: response.data,
+                        checkingCode: false,
+                        buttonAction: 'Start'
                     })
-                    localStorage.setItem('savedCode', code)
                 }
                 else {
                     this.setState({
-                        isCodeValid: false,
-                        checkingCode: false
+                        checkingCode: false,
+                        
                     })
                 }
 
@@ -45,10 +50,70 @@ class SavedHunt extends React.Component {
             })
     }
 
+    buttonHandler = () => {
+        const { status, code } = this.state
+        if (!status || status == 'ended') {
+            this.initiateHunt(this.props.uid, this.props.huntId)
+        }
+        if (status == 'initiated') {
+            this.onStartClickHandler()
+        }
+        if (status == 'started'){
+            this.onEndClickHandler()
+        }
+    }
+
+    onStartClickHandler = () => {
+        firebase.database().ref('users').child(this.props.uid).child('hunts/active')
+            .update({
+                status: 'started'
+            })
+            .then( () => this.setState({buttonAction: 'End'}))
+    }
+
+    onEndClickHandler = () => {
+        firebase.database().ref('users').child(this.props.uid).child('hunts/active')
+            .update({
+                status: 'ended'
+            })
+            .then( () => this.setState({buttonAction: 'Initiate'}))
+    }
+
+    fetchCodeAndStatus = () => {
+        firebase.database().ref('users').child(this.props.uid).child('hunts/active')
+            .on('value', (snapshot) => {
+                console.log(snapshot.child('hunt_id').val(), this.props.huntId)
+                if (snapshot.child('hunt_id').val() == this.props.huntId) {
+                    const status = snapshot.child('status').val()
+                    let buttonAction
+                    if (!status || status == 'ended') {
+                        buttonAction='Initiate'
+                        this.initiateHunt(this.props.uid, this.props.huntId)
+                    }
+                    if (status == 'initiated') {
+                        this.onStartClickHandler()
+                    }
+                    if (status == 'started'){
+                        this.onEndClickHandler()
+                    }
+                    this.setState({
+                        status: status,
+                        code: snapshot.child('hunt_code').val()
+                    })
+                }
+            })
+    }
+
+    componentDidMount = () => {
+        this.fetchCodeAndStatus()
+    }
+
     render() {
 
         // const {huntName, huntDes, huntSteps, huntCreated, huntCreationFail} = this.state
         const { huntName, huntDes, uid, huntId } = this.props
+
+        const {checkingCode, code, buttonAction} = this.state
 
         return (
             <div className="container">
@@ -62,8 +127,27 @@ class SavedHunt extends React.Component {
                             <h3>{huntName}</h3>
                             <p>{huntDes}</p>
                         </div>
+                         {code && 
+                            <div>{code}</div>
+                        }
+                        {status &&
+                            <div>status</div>
+                        }
+                        {status == 'initiated' &&
+                            <button onClick={this.onStartClickHandler}>Start</button>
+                        }
+                        {status == 'started' &&
+                            <button onClick={this.onEndClickHandler}>Start</button>
+                        }
                         <div className="col-md-2">
-                            <button type="button" class="btn btn-success" onClick={() => this.startHunt(uid, huntId)}>Initiate</button>
+                            <button 
+                                type="button" 
+                                class="btn btn-success" 
+                                onClick={this.buttonHandler}>{buttonAction}</button>
+                            {checkingCode &&
+                                <div>Initiating</div>
+                            }
+                            
                         </div>
                         <div className="col-md-1"></div>
                     </div>

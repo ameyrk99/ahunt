@@ -17,6 +17,7 @@ class Dashboard extends React.Component {
         activeHunt: false,
         activeMenu: 'newSteps',
         uid: null,
+        displayName: null,
         huntID: null,
         huntName: '',
         huntDes: '',
@@ -41,7 +42,8 @@ class Dashboard extends React.Component {
                 this.setState({ signedOut: true })
             } else {
                 this.setState({
-                    uid: user.uid
+                    uid: user.uid,
+                    displayName: user.displayName
                 }, () => this.checkIfActiveHunt())
             }
         })
@@ -53,6 +55,7 @@ class Dashboard extends React.Component {
             .then((snapShot) => {
                 if (snapShot.exists()) {
                     this.setState({
+                        activeHuntId: snapShot.child('hunt_id').val(),
                         activeHunt: true,
                         activeMenu: 'activeHunt'
                     })
@@ -107,7 +110,7 @@ class Dashboard extends React.Component {
 
     render() {
 
-        const { uid, signedOut, activeMenu, huntID, activeHunt, huntName, huntDes } = this.state
+        const { uid, displayName, activeHuntId, signedOut, activeMenu, huntID, activeHunt, huntName, huntDes } = this.state
 
         if (signedOut) {
             return <Redirect push to="/" />
@@ -119,8 +122,8 @@ class Dashboard extends React.Component {
                     activeMenu={activeMenu}
                     activeHunt={activeHunt}
                     changeActiveMenu={ (activeMenu) => this.setState({activeMenu: activeMenu})}/>
-                {this.state.activeMenu == 'activeHunt' &&
-                    <ActiveHunt />
+                {this.state.activeMenu == 'activeHunt' && uid &&
+                    <ActiveHunt uid={uid} displayName={displayName} activeHuntId={activeHuntId} />
                 }
                 {this.state.activeMenu == 'hunts' &&
                     <SavedHunts uid={uid} />
