@@ -3,18 +3,16 @@ import { ParticipantContext } from './ParticipantProvider'
 import CodeEnter from './CodeEnter'
 import Welcome from './Welcome'
 import ScanQr from './ScanQr';
+import StepContent from './StepContent'
 
 class Screens extends Component {
-    state = {
-
-    }
 
     render() {
         return (
             <ParticipantContext.Consumer>
                 {value => {
 
-                    const { isCodeValid, huntStarted } = value.state
+                    const { isCodeValid, huntStarted, stepId } = value.state
 
                     return (
                         <div>
@@ -24,8 +22,11 @@ class Screens extends Component {
                             {isCodeValid && !huntStarted &&
                                 <Welcome />
                             }
-                            {isCodeValid && huntStarted &&
+                            {isCodeValid && huntStarted && !stepId &&
                                 <ScanQr />
+                            }
+                            {isCodeValid && huntStarted && stepId &&
+                                <StepContent />
                             }
                         </div>
                         

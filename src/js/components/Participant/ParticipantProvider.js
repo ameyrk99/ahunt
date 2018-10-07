@@ -13,13 +13,21 @@ class ParticipantProvider extends React.Component {
         huntCreatorName: null,
         huntId: null,
 
-        huntName: null, 
+        huntName: null,
         huntDescription: null,
-        huntSteps: null
+        huntSteps: null,
+
+        qrReadError: false,
+
+        stepId: null,
+        stepContent: null,
+        stepContentLoaded: false,
+        stepContentLoading: false
+
     }
 
     submitCode = (code) => {
-        this.setState({checkingCode: true})
+        this.setState({ checkingCode: true })
 
         axios.get('', {
             params: {
@@ -28,24 +36,24 @@ class ParticipantProvider extends React.Component {
         })
             .then((response) => {
                 if (response.data) {
-                    this.setState({ 
+                    this.setState({
                         huntCreatorId: response.data.huntCreatorId,
-                        huntCreatorName: response.data.huntCreatorName, 
+                        huntCreatorName: response.data.huntCreatorName,
                         huntId: response.data.huntId,
 
                         huntName: response.data.huntName,
                         huntDescription: response.data.huntDescription,
                         huntSteps: response.data.stepsCount,
-                        
+
                         isCodeValid: true,
                         checkingCode: false
                     })
                     localStorage.setItem('savedCode', code)
                 }
                 else {
-                    this.setState({ 
-                        isCodeValid: false, 
-                        checkingCode: false 
+                    this.setState({
+                        isCodeValid: false,
+                        checkingCode: false
                     })
                 }
 
@@ -54,6 +62,51 @@ class ParticipantProvider extends React.Component {
                 this.setState({ isCodeValid: true, checkingCode: false })
                 console.log('unable to check code', error)
             })
+    }
+
+    handleQrData = (stepId) => {
+        if (stepId) {
+            const { previousStepId } = this.state
+            this.setState({
+                stepId: stepId,
+            }, () => this.fetchStepContent() )
+        }
+        else {
+            console.log('stepId is null')
+        }
+
+    }
+
+    handleQrReadError = (error) => {
+        this.setState({
+            qrReadError: true
+        })
+    }
+
+    fetchStepContent = () => {
+
+        this.setState({ stepContentLoading: true })
+
+        const { huntCreatorId, huntId, stepId } = this.state
+
+        firebase.firebase().ref('users').child(huntCreatorId).child('hunts/active').child(huntId).child(stepId)
+            .once('value')
+            .then((snapshot) => {
+                this.setState({
+                    stepContent: snapshot.val(),
+                    stepContentLoaded: true,
+                    stepContentLoading: false
+                })
+            })
+    }
+
+    onContinueHunt = () => {
+        this.setState({
+            stepId: null,
+            stepContent: null,
+            stepContentLoaded: false,
+            stepContentLoading: false
+        })
     }
 
     componentDidMount = () => {
@@ -69,7 +122,13 @@ class ParticipantProvider extends React.Component {
                 value={
                     {
                         state = this.state,
-                        submitCode: (code) => this.submitCode(code)
+                        submitCode: (code) => this.submitCode(code),
+
+                        handleQrData: (stepId) => this.handleQrData(stepId),
+                        handleQrReadError: (error) => this.handleQrReadError(error),
+
+                        onContinueHunt: () => this.onContinueHunt()
+
                     }
                 }>
                 {this.props.children}
@@ -78,4 +137,4 @@ class ParticipantProvider extends React.Component {
     }
 }
 
-export default ParticipantProvider;
+export default ParticipantProvider
