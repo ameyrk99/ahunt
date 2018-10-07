@@ -4,8 +4,6 @@ import HomePage from './components/Home/HomePage'
 import Register from './components/Register/Register'
 import Login from './components/Login/Login'
 import Dashboard from "./components/Dashboard/Dashboard"
-import CreateHunt from "./components/Dashboard/CreateHunt"
-import HuntSteps from "./components/Dashboard/HuntsSteps"
 import './bootstrap.css'
 
 const Layout = () =>

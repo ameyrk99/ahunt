@@ -15,15 +15,17 @@ class CreateHunt extends React.Component {
         const {uid, huntName, huntDes} = this.state
         const ref = firebase.database().ref("users").child(uid).child("hunts").child("saved")
         const huntId = ref.push().key
+
         ref.child(huntId).set({
             hunt_name: huntName,
-            hunt_description: huntDes,
+            hunt_description: huntDes
         })
         .then( () => {
             this.setState({
                 huntCreated: true
             })
             this.props.goToCreatingSteps()
+            this.props.setHuntID(huntId)
         })
         .catch( (error) => {
             console.log(error)

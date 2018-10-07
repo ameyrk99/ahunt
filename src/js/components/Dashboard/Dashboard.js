@@ -4,16 +4,18 @@ import firebase from '../../firebase/firebase'
 
 import ActiveHunt from './ActiveHunt'
 import NoActiveHunt from './NoActiveHunt'
-import Navbar from '../Navbar/Navbar'
+import Navbar from './Navbar'
 import CreateHunt from './CreateHunt'
-import CreateStep from './HuntsSteps'
+import HuntSteps from './HuntSteps'
+import Step from './Step'
 
 import './dashboard.css'
 class Dashboard extends React.Component {
     state = {
         signedOut: false,
-        activeMenu: 'newSteps',
-        uid: null
+        activeMenu: '',
+        uid: null,
+        huntID: null
     }
 
     signOutWithFirebase = () => {
@@ -55,7 +57,7 @@ class Dashboard extends React.Component {
 
     render() {
 
-        const { signedOut, activeMenu } = this.state
+        const { uid, signedOut, activeMenu, huntID } = this.state
 
         if (signedOut) {
             return <Redirect push to="/" />
@@ -67,7 +69,7 @@ class Dashboard extends React.Component {
                     activeMenu={activeMenu}
                     changeActiveMenu={ (activeMenu) => this.setState({activeMenu: activeMenu})}/>
 
-                {this.state.activeMenu =='noActiveHunt' && !this.state.activeMenu=='activeHunt' &&
+                {!this.state.activeMenu=='activeHunt' &&
                     // <NoActiveHunt/>
                     <CreateHunt/>
                 }
@@ -75,10 +77,15 @@ class Dashboard extends React.Component {
                     <ActiveHunt /> 
                 }
                 {(this.state.activeMenu=='newHunt' && !this.state.activeHunt) &&
-                    <CreateHunt goToCreatingSteps = { () => this.setState({activeMenu: 'newSteps'})}/>
+                    <CreateHunt goToCreatingSteps = { () => this.setState({activeMenu: 'newSteps'})} setHuntID = { (huntID) => this.setState({huntID: huntID})}/>
                 }
-                {this.state.activeMenu=='newSteps' &&
-                    <CreateStep/>
+                {this.state.activeMenu=='newSteps' && huntID &&
+                    
+                    <div>
+                        <Step huntID={huntID} uid={uid}/> 
+                        <br/><br/>
+                        <HuntSteps huntID={huntID} uid={uid}/>    
+                    </div>
                 }
             </div>
         )

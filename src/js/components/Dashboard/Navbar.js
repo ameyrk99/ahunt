@@ -24,7 +24,7 @@ class Navbar extends React.Component {
                             <a class={activeMenu=='hunts'?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('hunts')}>Scavengar Hunts</a>
                         </li>
                         <li class="nav-item">
-                            <a class={activeMenu=='newHunt'?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('newHunt')}>New Hunt</a>
+                            <a class={(activeMenu=='newHunt' || activeMenu=='newSteps')?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('newHunt')}>New Hunt</a>
                         </li>
                         <li class="nav-item">
                             <a class={activeMenu=='settings'?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('settings')}>Settings</a>
