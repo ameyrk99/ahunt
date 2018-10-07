@@ -5,6 +5,7 @@ import Register from './components/Register/Register'
 import Login from './components/Login/Login'
 import Dashboard from "./components/Dashboard/Dashboard"
 import CreateHunt from "./components/CreateHunt/CreateHunt"
+import HuntSteps from "./components/HuntSteps/HuntsSteps"
 import './bootstrap.css'
 
 const Layout = () =>
@@ -16,6 +17,7 @@ const Layout = () =>
             <Route path='/register' exact component={Register} />
             <Route path='/dashboard' exact component={Dashboard} />
             <Route path='/createhunt' exact component={CreateHunt} />
+            <Route path='/huntsteps' exact component={HuntSteps} />
         </Switch>
     </BrowserRouter>
 

@@ -1,4 +1,12 @@
-input {
-    margin: 8px 0;
-    border: 2px solid red;
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: black;
+    display: inline-block;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: red;
 }
