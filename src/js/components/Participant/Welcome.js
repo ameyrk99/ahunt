@@ -28,7 +28,7 @@ class Welcome extends React.Component {
                         <div className="container" style={{
                             color: "white"
                         }}>
-                            <h1 className="name">KHunt</h1><br />
+                            <h1 className="name">AHunt</h1><br />
 
                             <div style={{
                                 padding: "2%",

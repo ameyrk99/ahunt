@@ -19,7 +19,7 @@ class ScanQr extends React.Component {
 
                     return (
                         <div>
-                            <h1 className="name">KHunt</h1><br />
+                            <h1 className="name">AHunt</h1><br />
                             <div className="container">
                                 <div style={{
                                     padding: "2%",

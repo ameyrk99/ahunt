@@ -1,7 +1,7 @@
 {
-  "name": "khunt",
+  "name": "ahunt",
   "version": "1.0.0",
-  "description": "Kahoot With Scavenger Hunt",
+  "description": "Aid to Scavenger Hunt",
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server --mode development --open --hot",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://ondikumana@github.com/ameyrk99/khunt.git"
+    "url": "git+https://ondikumana@github.com/ameyrk99/ahunt.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ameyrk99/khunt/issues"
+    "url": "https://github.com/ameyrk99/ahunt/issues"
   },
-  "homepage": "https://github.com/ameyrk99/khunt#readme",
+  "homepage": "https://github.com/ameyrk99/ahunt#readme",
   "dependencies": {
     "antd": "^3.10.0",
     "firebase": "^5.2.0",
