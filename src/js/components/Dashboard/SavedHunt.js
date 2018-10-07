@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import QRPage from "../QRPage/QRPage"
 import firebase from '../../firebase/firebase'
 
 class SavedHunt extends React.Component {
@@ -126,6 +127,7 @@ class SavedHunt extends React.Component {
                         <div className="col-md-8">
                             <h3>{huntName}</h3>
                             <p>{huntDes}</p>
+                            <QRPage uid={uid} huntID={huntId}/>
                         </div>
                          {code && 
                             <div>{code}</div>

@@ -1,20 +1,4 @@
 import React from 'react'
-import firebase from '../../firebase/firebase'
-
-// class DisplayStep extends React.Component {
-//     render() {
-//         const { stepName, stepHint, stepFeedback } = this.props
-
-//         return (
-//             <div>
-//                 <h5>Steps</h5>
-//                 <h6>Name: {stepName}</h6>
-//                 <p>Hint: {stepHint}</p>
-//                 <small>Feedback: {stepFeedback}</small>
-//             </div>
-//         )
-//     }
-// }
 
 class FinishedStep extends React.Component {
 
