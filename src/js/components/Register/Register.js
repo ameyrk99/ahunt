@@ -91,35 +91,43 @@ class Register extends React.Component {
         }
 
         return (
-            <form>
-                Full Name
-
-                <input
-                    type="text"
-                    name="name"
-                    value={name}
-                    onChange={e => this.handleChange(e)} />
-
-                Email
-                <input
-                    type="email"
-                    name="email"
-                    value={email}
-                    onChange={e => this.handleChange(e)} />
-                Password
-                <input
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={e => this.handleChange(e)} />
-
-                <button
-                    type="button"
-                    value="Log In"
-                    onClick={this.registerWithFirebase} >
-                    Sign Up
-                </button>
-            </form>
+            <div>
+                <h1 className="name">KHunt</h1>
+                <div className="row" style={{
+                    paddingTop: "3%"
+                }}>
+                    <div className="col-md-4"></div>
+                    <div className="col-md-4">
+                        <div className="card rounded">
+                            <div className="card-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="name">Full Name</label>
+                                        <input type="text" class="form-control" name="name" value={name} placeholder="Enter full name" onChange={e => this.handleChange(e)}/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email address</label>
+                                        <input type="email" class="form-control" name="email" value={email} aria-describedby="emailHelp" placeholder="Enter email" onChange={e => this.handleChange(e)}/>
+                                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" name="password" value={password} placeholder="Password" onChange={e => this.handleChange(e)}/>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        value="Log In"
+                                        className="btn btn-primary rounded"
+                                        onClick={this.registerWithFirebase}>
+                                        Register
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-4"></div>
+                </div>
+            </div>
         )
     }
 }

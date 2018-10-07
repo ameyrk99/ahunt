@@ -1,13 +1,14 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import firebase from '../../firebase/firebase'
+import '../Home/home.css'
 
 class Login extends React.Component {
     state = {
         email: '',
         password: '',
         loading: false,
-        authenticationFail: false, 
+        authenticationFail: false,
         authenticationFailMessage: null,
         authenticationSuccess: false
     }
@@ -80,11 +81,11 @@ class Login extends React.Component {
     }
 
     checkIfSignedIn = () => {
-        firebase.auth().onAuthStateChanged( (user) => {
+        firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-              this.setState({authenticationSuccess: true})
+                this.setState({ authenticationSuccess: true })
             }
-          })
+        })
     }
 
     componentDidMount = () => {
@@ -100,31 +101,42 @@ class Login extends React.Component {
         }
 
         return (
-            <form>
-                Email 
-                <input 
-                    type="email" 
-                    name="email" 
-                    value={email}
-                    onChange={e => this.handleChange(e)}
-                    onKeyPress={this.handleKeyPress} />
-                Password 
-                <input 
-                    type="password" 
-                    name="password" 
-                    value={password}
-                    onChange={e => this.handleChange(e)}
-                    onKeyPress={this.handleKeyPress} />
+            <div>
+                <h1 className="name">KHunt</h1>
+                <div className="row" style={{
+                    paddingTop: "3%"
+                }}>
+                    <div className="col-md-4"></div>
+                    <div className="col-md-4">
+                        <div className="card rounded">
+                            <div className="card-body">
+                                <form>
 
-                <button 
-                    type="button" 
-                    value="Log In" 
-                    onClick={this.authenticateWithFirebase}>
-                    Login 
-                </button> 
-            </form>
-                        )
-                   }
-               }
-                
+                                    <div class="form-group">
+                                        <label for="email">Email address</label>
+                                        <input type="email" class="form-control" name="email" value={email} aria-describedby="emailHelp" placeholder="Enter email" onChange={e => this.handleChange(e)} onKeyPress={this.handleKeyPress} />
+                                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" name="password" value={password} placeholder="Password" onChange={e => this.handleChange(e)} onKeyPress={this.handleKeyPress} />
+                                    </div>
+                                    <button
+                                        type="button"
+                                        value="Log In"
+                                        className="btn btn-primary rounded"
+                                        onClick={this.authenticateWithFirebase}>
+                                        Login
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-4"></div>
+                </div>
+            </div>
+        )
+    }
+}
+
 export default Login
