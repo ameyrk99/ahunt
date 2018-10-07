@@ -27,7 +27,10 @@ class ParticipantProvider extends React.Component {
         stepContentLoading: false,
 
         participantId: null,
-        participantName: null
+        participantName: null,
+
+        deletedStorageDataAfterEnded: false,
+        inDeleteCountdownSequence: false
 
     }
 
@@ -104,7 +107,7 @@ class ParticipantProvider extends React.Component {
                 .update({
                     name: name
                 })
-                .then( () => {
+                .then(() => {
                     localStorage.setItem('participantName', name)
                     this.setState({ participantName: name })
                 })
@@ -137,7 +140,7 @@ class ParticipantProvider extends React.Component {
                 current_step_id: stepId,
                 current_step_title: stepContent.title
             })
-            .then( () => this.updateCompletedCount() )
+            .then(() => this.updateCompletedCount())
             .catch(error => console.log(error))
     }
 
@@ -196,6 +199,25 @@ class ParticipantProvider extends React.Component {
         if (savedParticipantName) {
             this.setState({ participantName: savedParticipantName })
         }
+    }
+
+    componentDidUpdate = () => {
+        const { deletedStorageDataAfterEnded, huntStatus, inDeleteCountdownSequence } = this.state
+
+        if (huntStatus == 'ended' && !deletedStorageDataAfterEnded && !inDeleteCountdownSequence) {
+
+            this.setState({ inDeleteCountdownSequence: true })
+
+            setTimeout(() => {
+                localStorage.removeItem('huntCode')
+                localStorage.removeItem('participantId')
+                localStorage.removeItem('participantName')
+                localStorage.removeItem('currentUserData')
+                this.setState({ deletedStorageDataAfterEnded: true })
+            }, 5000)
+
+        }
+
     }
 
     render() {
