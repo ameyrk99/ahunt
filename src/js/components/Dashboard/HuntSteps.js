@@ -35,9 +35,9 @@ class HuntsSteps extends React.Component {
                 <div className="container">
                     <div className="jumbotron">
                         {finishedSteps != null && 
-                            Object.keys(finishedSteps).map( (step) => {
+                            Object.keys(finishedSteps).map( (step, i) => {
                                 return (
-                                    <FinishedStep stepName={finishedSteps[step].title} stepHint={finishedSteps[step].hint} image={finishedSteps[step].image? finishedSteps[step].image.url:null} stepFeedback={finishedSteps[step].feedback}/>
+                                    <FinishedStep key={i} stepName={finishedSteps[step].title} stepHint={finishedSteps[step].hint} image={finishedSteps[step].image? finishedSteps[step].image.url:null} stepFeedback={finishedSteps[step].feedback}/>
                                 )
                         })}
                     </div>

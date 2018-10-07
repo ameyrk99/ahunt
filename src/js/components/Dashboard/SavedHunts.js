@@ -1,10 +1,12 @@
 import React from 'react'
 import firebase from '../../firebase/firebase'
+import SavedHunt from './SavedHunt'
 
 class SavedHunts extends React.Component {
 
     state = {
-        savedHunts: null
+        savedHunts: null,
+        uid: null,
     }
 
     fetchHunts = () => {
@@ -28,31 +30,14 @@ class SavedHunts extends React.Component {
 
         // const {huntName, huntDes, huntSteps, huntCreated, huntCreationFail} = this.state
         const { savedHunts } = this.state
+        const { uid } = this.props
 
         return (
-            <div style={{paddingTop: "2%"}}>
+            <div style={{ paddingTop: "2%" }}>
                 {savedHunts != null &&
-                    Object.keys(savedHunts).map((hunt) => {
+                    Object.keys(savedHunts).map((hunt, i) => {
                         return (
-                            <div className="container">
-                                <div style={{
-                                    paddingTop: "2%",
-                                    color: "white"
-                                }}>
-                                    <div className="row">
-                                        <div className="col-md-1"></div>
-                                        <div className="col-md-8">
-                                            <h3>{savedHunts[hunt].hunt_name}</h3>
-                                            <p>{savedHunts[hunt].hunt_description}</p>
-                                        </div>
-                                        <div className="col-md-2">
-                                            <button type="button" class="btn btn-success">Start</button>
-                                        </div>
-                                        <div className="col-md-1"></div>
-                                    </div>
-                                </div>
-
-                            </div>
+                           <SavedHunt key={i} huntName={savedHunts[hunt].hunt_name} huntDes={savedHunts[hunt].hunt_description} uid={uid} huntId={savedHunts[hunt].hunt_id}/> 
                         )
                     })}
             </div>
