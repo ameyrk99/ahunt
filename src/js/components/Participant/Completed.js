@@ -12,8 +12,14 @@ class Completed extends React.Component {
 
                     return (
                         <div>
-                            <h3>Thank you for Playing</h3>
-                            <a href="/"></a>
+                            <h1 className="name">KHunt</h1><br />
+
+                            <div className="container">
+                                <h5>Congratulations!! You completed the Hunt!</h5>
+                                <br/><br/>
+                                <h3>Thank you for Playing</h3>
+                                <a href="/"></a>
+                            </div>
                         </div>
                     )
                 }}
