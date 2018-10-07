@@ -12,7 +12,7 @@ class Completed extends React.Component {
 
                     return (
                         <div>
-                            <h1 className="name">KHunt</h1><br />
+                            <h1 className="name">AHunt</h1><br />
 
                             <div className="container">
                                 <h5>Congratulations!! You completed the Hunt!</h5>

@@ -92,7 +92,7 @@ class Register extends React.Component {
 
         return (
             <div>
-                <h1 className="name">KHunt</h1>
+                <h1 className="name">AHunt</h1>
                 <div className="row" style={{
                     paddingTop: "3%"
                 }}>
