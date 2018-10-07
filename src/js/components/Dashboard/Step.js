@@ -22,11 +22,12 @@ class Step extends React.Component {
         stepHint: '',
         stepImage: null,
         stepFeedback: '',
-        order: 1
+        order: 1,
+        qrCode: ''
     }
 
     submitStep = () => {
-        const {stepName, stepHint, stepImage, stepFeedback, order} = this.state
+        const {stepName, stepHint, stepImage, stepFeedback, order, qrCode} = this.state
         const { uid, huntID } = this.props
         console.log(uid, huntID)
         // if(!uid || !huntId) {
@@ -34,12 +35,16 @@ class Step extends React.Component {
         // }
         const ref = firebase.database().ref("users").child(uid).child("hunts").child("saved").child(huntID).child('steps')
         const stepId = ref.push().key
+        this.setState({
+            qrCode: "http://api.qrserver.com/v1/create-qr-code/?data="+stepId+"&size=500x500"
+        })
         ref.child(stepId).set({
             title: stepName,
             hint: stepHint,
             feedback: stepFeedback,
             id: stepId,
-            order: order
+            order: order,
+            qr_code: qrCode
         })
         .then( () => {
             console.log("Step Created")
@@ -49,7 +54,7 @@ class Step extends React.Component {
                 stepImage: null,
                 stepFeedback: '',
                 order: this.state.order + 1,
-                uid: null
+                uid: null,
             })
         })
         .catch( (error) => {

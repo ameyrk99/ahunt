@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-
+import QRPage from "../QRPage/QRPage"
 class SavedHunt extends React.Component {
 
     startHunt = (uid, huntId) => {
@@ -61,6 +61,7 @@ class SavedHunt extends React.Component {
                         <div className="col-md-8">
                             <h3>{huntName}</h3>
                             <p>{huntDes}</p>
+                            <QRPage uid={uid} huntID={huntId}/>
                         </div>
                         <div className="col-md-2">
                             <button type="button" class="btn btn-success" onClick={() => this.startHunt(uid, huntId)}>Initiate</button>
