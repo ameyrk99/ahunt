@@ -1,7 +1,6 @@
 import React from 'react'
 import firebase from '../../firebase/firebase'
 import Navbar from '../Navbar/Navbar'
-import '../CreateHunt/createForm.css'
 
 class CreateStep extends React.Component {
     // state = {

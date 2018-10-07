@@ -1,5 +1,4 @@
 import React from 'react'
-import './createForm.css'
 import firebase from '../../firebase/firebase'
 import Navbar from '../Navbar/Navbar'
 
