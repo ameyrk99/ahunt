@@ -6,6 +6,8 @@ class SavedHunt extends React.Component {
     startHunt = (uid, huntId) => {
         this.setState({ checkingCode: true })
 
+        console.log(uid, huntId)
+
         axios.get('https://us-central1-kahunt-218617.cloudfunctions.net/startHunt', {
             params: {
                 uid: uid,

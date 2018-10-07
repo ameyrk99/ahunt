@@ -17,6 +17,8 @@ class ParticipantProvider extends React.Component {
         huntDescription: null,
         huntSteps: null,
 
+        huntStatus: null,
+
         qrReadError: false,
 
         stepId: null,
@@ -28,6 +30,8 @@ class ParticipantProvider extends React.Component {
 
     submitCode = (code) => {
         this.setState({ checkingCode: true })
+
+        console.log(code)
 
         axios.get('https://us-central1-kahunt-218617.cloudfunctions.net/checkCode', {
             params: {
@@ -44,12 +48,13 @@ class ParticipantProvider extends React.Component {
 
                         huntName: response.data.huntName,
                         huntDescription: response.data.huntDescription,
-                        huntSteps: response.data.stepsCount,
+                        huntSteps: response.data.huntSteps,
 
                         isCodeValid: true,
                         checkingCode: false
                     })
                     localStorage.setItem('savedCode', code)
+                    this.fetchHuntStatus()
                 }
                 else {
                     this.setState({
@@ -65,8 +70,17 @@ class ParticipantProvider extends React.Component {
             })
     }
 
+    fetchHuntStatus = () => {
+        console.log(this.state.huntCreatorId)
+        firebase.database().ref('users').child(this.state.huntCreatorId).child('hunts').child('active/status')
+            .on('value', (snapshot) => {
+                this.setState({huntStatus: snapshot.val()})
+            })
+    }
+
     handleQrData = (stepId) => {
         if (stepId) {
+            console.log(stepId)
             const { previousStepId } = this.state
             this.setState({
                 stepId: stepId,
@@ -76,6 +90,18 @@ class ParticipantProvider extends React.Component {
             console.log('stepId is null')
         }
 
+    }
+
+    addName = (name) => {
+        const { huntCreatorId, huntId, stepId } = this.state
+        const ref = firebase.database().ref('users').child(huntCreatorId).child('hunts').child('saved').child(huntId).child('participants')
+        const participantId = ref.push().key
+
+        ref.child(participantId).update({
+            id: participantId,
+            name: name,
+            
+        })
     }
 
     handleQrReadError = (error) => {
@@ -90,9 +116,10 @@ class ParticipantProvider extends React.Component {
 
         const { huntCreatorId, huntId, stepId } = this.state
 
-        firebase.firebase().ref('users').child(huntCreatorId).child('hunts/active').child(huntId).child(stepId)
+        firebase.database().ref('users').child(huntCreatorId).child('hunts').child('saved').child(huntId).child('steps').child(stepId)
             .once('value')
             .then((snapshot) => {
+                console.log(snapshot.val())
                 this.setState({
                     stepContent: snapshot.val(),
                     stepContentLoaded: true,

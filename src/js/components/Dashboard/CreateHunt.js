@@ -7,12 +7,13 @@ class CreateHunt extends React.Component {
         huntName: '',
         huntDes: '',
         huntCreated: false,
-        huntCreationFail: false
+        huntCreationFail: false,
     }
 
     submitForm = () => {
         // console.log("Hunt Created")
         const {uid, huntName, huntDes} = this.state
+        console.log(this.props)
         const ref = firebase.database().ref("users").child(uid).child("hunts").child("saved")
         const huntId = ref.push().key
 
@@ -24,8 +25,11 @@ class CreateHunt extends React.Component {
             this.setState({
                 huntCreated: true
             })
-            this.props.goToCreatingSteps()
+
             this.props.setHuntID(huntId)
+            this.props.goToCreatingSteps()
+
+            console.log(huntId)
         })
         .catch( (error) => {
             console.log(error)
@@ -53,6 +57,10 @@ class CreateHunt extends React.Component {
         this.checkIfSignedIn()
     }
 
+    componentDidUpdate = () => {
+
+    }
+
     render() {
 
         const {huntName, huntDes, huntCreated, huntCreationFail} = this.state
@@ -78,7 +86,7 @@ class CreateHunt extends React.Component {
                                     <textarea class="form-control" value={huntDes} name="huntDes" onChange={e => this.handleChange(e)} placeholder="Hunt Description" rows="3"></textarea>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary" onClick={this.submitForm}>Submit</button>
+                            <button type="button" class="btn btn-primary" onClick={this.submitForm.bind(this)}>Submit</button>
                         </fieldset>
                     </form>
                     <br/><br/>

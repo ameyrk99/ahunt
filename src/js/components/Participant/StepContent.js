@@ -22,7 +22,7 @@ class StepContent extends React.Component {
                                 <div>
                                     <h3>{stepContent.title}</h3>
                                     <div>{stepContent.feedback}</div>
-                                    <img src={stepContent.image.url} />
+                                    <img src={stepContent.image ? stepContent.image.url : null} />
                                     <div>Step #: {stepContent.order}</div>
                                     <div>People Who completed: {stepContent.complete_count}</div>
                                     <button

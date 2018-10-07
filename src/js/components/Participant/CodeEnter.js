@@ -12,14 +12,6 @@ class CodeEnter extends React.Component {
         })
     }
 
-    handleKeyPress = (e) => {
-        if (e.charCode === 13) {
-            // Prevent the default action to stop scrolling when space is pressed
-            e.preventDefault()
-            this.authenticateWithFirebase()
-        }
-    }
-
     render() {
 
         const { code } = this.state
@@ -41,8 +33,7 @@ class CodeEnter extends React.Component {
                                 type="text"
                                 name="code"
                                 value={code}
-                                onChange={e => this.handleChange(e)}
-                                onKeyPress={this.handleKeyPress} />
+                                onChange={e => this.handleChange(e)} />
                             <button
                                 disabled={!code || code == ''}
                                 onClick={() => submitCode(code)}>

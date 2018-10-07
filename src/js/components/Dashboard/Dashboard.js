@@ -15,10 +15,12 @@ class Dashboard extends React.Component {
     state = {
         signedOut: false,
         activeHunt: false,
-        activeMenu: 'noActiveHunt',
+        activeMenu: 'newSteps',
         uid: null,
         huntID: null
     }
+
+
 
     signOutWithFirebase = () => {
         firebase.auth().signOut()
@@ -44,14 +46,23 @@ class Dashboard extends React.Component {
     checkIfActiveHunt = () => {
         const ref = firebase.database().ref("users").child(this.state.uid).child("hunts").child("active")
         ref.once('value')
-        .then( (snapShot) => {
-            if(snapShot.exists()) {
-                this.setState({
-                    activeHunt: true,
-                    activeMenu: 'activeHunt'
-                })
-            }
-        })
+            .then((snapShot) => {
+                if (snapShot.exists()) {
+                    this.setState({
+                        activeHunt: true,
+                        activeMenu: 'activeHunt'
+                    })
+                }
+            })
+    }
+
+    changeToCreatingSteps = () => {
+        this.setState({ activeMenu: 'newSteps' })
+        
+    }
+
+    setHuntId = (newHuntID) => {
+        this.setState({ huntID: newHuntID })
     }
 
     componentDidMount = () => {
@@ -68,32 +79,32 @@ class Dashboard extends React.Component {
 
         return (
             <div>
-                <Navbar 
+                <Navbar
                     activeMenu={activeMenu}
                     activeHunt={activeHunt}
-                    changeActiveMenu={ (activeMenu) => this.setState({activeMenu: activeMenu})}/>
+                    changeActiveMenu={(activeMenu) => this.setState({ activeMenu: activeMenu })} />
 
                 {this.state.activeMenu == 'noActiveHunt' &&
                     // <NoActiveHunt/>
-                    <CreateHunt/>
+                    <CreateHunt />
                 }
                 {this.state.activeMenu == 'activeHunt' &&
-                    <ActiveHunt /> 
+                    <ActiveHunt />
                 }
                 {this.state.activeMenu == 'hunts' &&
-                    <SavedHunts uid={uid}/> 
+                    <SavedHunts uid={uid} />
                 }
-                {(this.state.activeMenu=='newHunt' && !this.state.activeHunt) &&
-                    <CreateHunt 
-                    goToCreatingSteps={ () => this.setState({activeMenu: 'newSteps'})} 
-                    setHuntID = { (huntID) => this.setState({huntID: huntID})}/>
+                {(this.state.activeMenu == 'newHunt' && !this.state.activeHunt) &&
+                    <CreateHunt
+                        goToCreatingSteps={this.changeToCreatingSteps.bind(this)}
+                        setHuntID={this.setHuntId.bind(this)} />
                 }
-                {this.state.activeMenu=='newSteps' && huntID &&
-                    
+                {this.state.activeMenu == 'newSteps' &&
+
                     <div>
-                        <Step huntID={huntID} uid={uid}/> 
-                        <br/><br/>
-                        <HuntSteps huntID={huntID} uid={uid}/>    
+                        <Step huntID={'-LOCz1XkIhgBVqqI0PVJ'} uid={uid} />
+                        <br /><br />
+                        <HuntSteps huntID={'-LOCz1XkIhgBVqqI0PVJ'} uid={uid} />
                     </div>
                 }
             </div>

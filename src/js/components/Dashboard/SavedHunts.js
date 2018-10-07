@@ -37,7 +37,7 @@ class SavedHunts extends React.Component {
                 {savedHunts != null &&
                     Object.keys(savedHunts).map((hunt, i) => {
                         return (
-                           <SavedHunt key={i} huntName={savedHunts[hunt].hunt_name} huntDes={savedHunts[hunt].hunt_description} uid={uid} huntId={savedHunts[hunt].hunt_id}/> 
+                           <SavedHunt key={i} huntId={'-LOCz1XkIhgBVqqI0PVJ'} huntName={savedHunts[hunt].hunt_name} huntDes={savedHunts[hunt].hunt_description} uid={uid} /> 
                         )
                     })}
             </div>

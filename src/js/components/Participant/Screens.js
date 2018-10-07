@@ -12,20 +12,20 @@ class Screens extends React.Component {
             <ParticipantContext.Consumer>
                 {value => {
 
-                    const { isCodeValid, huntStarted, stepId } = value.state
+                    const { isCodeValid, huntStatus, stepId } = value.state
 
                     return (
                         <div>
                             {!isCodeValid && 
                                 <CodeEnter />
                             }
-                            {isCodeValid && !huntStarted &&
+                            {isCodeValid &&  huntStatus == 'initiated' &&
                                 <Welcome />
                             }
-                            {isCodeValid && huntStarted && !stepId &&
+                            {isCodeValid && huntStatus == 'started' && !stepId &&
                                 <ScanQr />
                             }
-                            {isCodeValid && huntStarted && stepId &&
+                            {isCodeValid && huntStatus == 'started' && stepId &&
                                 <StepContent />
                             }
                         </div>
