@@ -5,7 +5,7 @@ import firebase from '../../firebase/firebase'
 import ActiveHunt from './ActiveHunt'
 import NoActiveHunt from './NoActiveHunt'
 import Navbar from './Navbar'
-import CreateHunt from './CreateHunt'
+// import CreateHunt from './CreateHunt'
 import HuntSteps from './HuntSteps'
 import Step from './Step'
 import SavedHunts from './SavedHunts'
@@ -17,7 +17,11 @@ class Dashboard extends React.Component {
         activeHunt: false,
         activeMenu: 'newSteps',
         uid: null,
-        huntID: null
+        huntID: null,
+        huntName: '',
+        huntDes: '',
+        huntCreated: false,
+        huntCreationFail: false
     }
 
 
@@ -65,13 +69,45 @@ class Dashboard extends React.Component {
         this.setState({ huntID: newHuntID })
     }
 
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
+    submitForm = () => {
+        // console.log("Hunt Created")
+        const {uid, huntName, huntDes} = this.state
+        const ref = firebase.database().ref("users").child(uid).child("hunts").child("saved")
+        const huntId = ref.push().key
+
+        ref.child(huntId).set({
+            hunt_name: huntName,
+            hunt_description: huntDes,
+            id: huntId
+        })
+        .then( () => {
+            this.setState({
+                huntCreated: true,
+                huntID: huntId,
+                activeMenu: 'newSteps'
+            })
+        })
+        .catch( (error) => {
+            console.log(error)
+            this.setState({
+                huntCreationFail: true
+            })
+        })
+    }
+
     componentDidMount = () => {
         this.checkIfSignedIn()
     }
 
     render() {
 
-        const { uid, signedOut, activeMenu, huntID, activeHunt } = this.state
+        const { uid, signedOut, activeMenu, huntID, activeHunt, huntName, huntDes } = this.state
 
         if (signedOut) {
             return <Redirect push to="/" />
@@ -82,22 +118,57 @@ class Dashboard extends React.Component {
                 <Navbar
                     activeMenu={activeMenu}
                     activeHunt={activeHunt}
+<<<<<<< HEAD
                     changeActiveMenu={(activeMenu) => this.setState({ activeMenu: activeMenu })} />
 
                 {this.state.activeMenu == 'noActiveHunt' &&
                     // <NoActiveHunt/>
                     <CreateHunt />
                 }
+=======
+                    changeActiveMenu={ (activeMenu) => this.setState({activeMenu: activeMenu})}/>
+>>>>>>> d205a6c68e8d67f4465edf72a5f17e18cd3e3522
                 {this.state.activeMenu == 'activeHunt' &&
                     <ActiveHunt />
                 }
                 {this.state.activeMenu == 'hunts' &&
                     <SavedHunts uid={uid} />
                 }
+<<<<<<< HEAD
                 {(this.state.activeMenu == 'newHunt' && !this.state.activeHunt) &&
                     <CreateHunt
                         goToCreatingSteps={this.changeToCreatingSteps.bind(this)}
                         setHuntID={this.setHuntId.bind(this)} />
+=======
+                {(this.state.activeMenu=='newHunt' || this.state.activeMenu=='noActiveHunt' || (!this.state.activeHunt && this.state.activeMenu == 'activeHunt')) &&
+                    <div style={{
+                        paddingTop: "2%"
+                    }}>
+                        <div className="container">
+                            <div className="jumbotron">
+                            <form>
+                                <fieldset>
+                                    <legend>Create Hunt</legend>
+                                    <div class="form-group row">
+                                        <label for="huntName" class="col-sm-2 col-form-label">Hunt Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" value={huntName} name="huntName" onChange={e => this.handleChange(e)} placeholder="Step Name"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="description" class="col-sm-2 col-form-label">Description</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" value={huntDes} name="huntDes" onChange={e => this.handleChange(e)} placeholder="Hunt Description" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" onClick={this.submitForm}>Submit</button>
+                                </fieldset>
+                            </form>
+                            <br/><br/>
+                            </div>
+                        </div>
+                    </div>
+>>>>>>> d205a6c68e8d67f4465edf72a5f17e18cd3e3522
                 }
                 {this.state.activeMenu == 'newSteps' &&
 

@@ -10,7 +10,7 @@ class StepContent extends React.Component {
         return ( 
             <ParticipantContext.Consumer>
                 {value => {
-                    const { stepContent, stepContentLoaded, stepContentLoading } = value.state
+                    const { stepContent, stepContentLoaded, stepContentLoading, huntSteps } = value.state
                     const { onContinueHunt } = value
 
                     return (
@@ -24,11 +24,14 @@ class StepContent extends React.Component {
                                     <div>{stepContent.feedback}</div>
                                     <img src={stepContent.image ? stepContent.image.url : null} />
                                     <div>Step #: {stepContent.order}</div>
-                                    <div>People Who completed: {stepContent.complete_count}</div>
-                                    <button
+                                    <div>People Who completed: {stepContent.completed ? Object.keys(stepContent.completed).length : 0}</div>
+                                    {stepContent.order != huntSteps &&
+                                        <button
                                         onClick={onContinueHunt}>
                                         Continue Hunt
                                     </button>
+                                    }
+                                    
                                 </div>
                             
                             }

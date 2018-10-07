@@ -24,7 +24,10 @@ class ParticipantProvider extends React.Component {
         stepId: null,
         stepContent: null,
         stepContentLoaded: false,
-        stepContentLoading: false
+        stepContentLoading: false,
+
+        participantId: null,
+        participantName: null
 
     }
 
@@ -53,7 +56,7 @@ class ParticipantProvider extends React.Component {
                         isCodeValid: true,
                         checkingCode: false
                     })
-                    localStorage.setItem('savedCode', code)
+                    localStorage.setItem('huntCode', code)
                     this.fetchHuntStatus()
                 }
                 else {
@@ -74,7 +77,7 @@ class ParticipantProvider extends React.Component {
         console.log(this.state.huntCreatorId)
         firebase.database().ref('users').child(this.state.huntCreatorId).child('hunts').child('active/status')
             .on('value', (snapshot) => {
-                this.setState({huntStatus: snapshot.val()})
+                this.setState({ huntStatus: snapshot.val() })
             })
     }
 
@@ -84,7 +87,7 @@ class ParticipantProvider extends React.Component {
             const { previousStepId } = this.state
             this.setState({
                 stepId: stepId,
-            }, () => this.fetchStepContent() )
+            }, () => this.fetchStepContent())
         }
         else {
             console.log('stepId is null')
@@ -93,15 +96,58 @@ class ParticipantProvider extends React.Component {
     }
 
     addName = (name) => {
-        const { huntCreatorId, huntId, stepId } = this.state
-        const ref = firebase.database().ref('users').child(huntCreatorId).child('hunts').child('saved').child(huntId).child('participants')
-        const participantId = ref.push().key
 
-        ref.child(participantId).update({
-            id: participantId,
-            name: name,
-            
-        })
+        const { huntCreatorId, huntId, stepId } = this.state
+
+        if (this.state.participantId) {
+            firebase.database().ref('users').child(huntCreatorId).child('hunts').child('saved').child(huntId).child('participants').child(this.state.participantId)
+                .update({
+                    name: name
+                })
+                .then( () => {
+                    localStorage.setItem('participantName', name)
+                    this.setState({ participantName: name })
+                })
+        }
+        else {
+            const { huntCreatorId, huntId, stepId } = this.state
+            const ref = firebase.database().ref('users').child(huntCreatorId).child('hunts').child('saved').child(huntId).child('participants')
+            const participantId = ref.push().key
+
+            ref.child(participantId).update({
+                id: participantId,
+                name: name
+            })
+                .then(() => {
+                    localStorage.setItem('participantId', participantId)
+                    this.setState({ participantName: name, participantId: participantId })
+                })
+                .catch((error) => {
+                    console.log('unable to create name and id', error)
+                })
+        }
+
+    }
+
+    updateProgress = () => {
+        const { participantId, stepContent, stepId, huntCreatorId, huntId } = this.state
+        firebase.database().ref('users').child(huntCreatorId).child('hunts').child('saved').child(huntId).child('participants').child(participantId)
+            .update({
+                current_step_order: stepContent.order,
+                current_step_id: stepId,
+                current_step_title: stepContent.title
+            })
+            .then( () => this.updateCompletedCount() )
+            .catch(error => console.log(error))
+    }
+
+    updateCompletedCount = () => {
+        const { participantId, stepContent, stepId, huntCreatorId, huntId } = this.state
+        firebase.database().ref('users').child(huntCreatorId).child('hunts').child('saved').child(huntId).child('steps').child(stepId).child('completed')
+            .update({
+                [participantId]: true
+            })
+            .catch(error => console.log(error))
     }
 
     handleQrReadError = (error) => {
@@ -124,7 +170,7 @@ class ParticipantProvider extends React.Component {
                     stepContent: snapshot.val(),
                     stepContentLoaded: true,
                     stepContentLoading: false
-                })
+                }, () => this.updateProgress())
             })
     }
 
@@ -139,8 +185,16 @@ class ParticipantProvider extends React.Component {
 
     componentDidMount = () => {
         const savedCode = localStorage.getItem('huntCode')
+        const savedParticipantId = localStorage.getItem('participantId')
+        const savedParticipantName = localStorage.getItem('participantName')
         if (savedCode) {
             this.submitCode(savedCode)
+        }
+        if (savedParticipantId) {
+            this.setState({ participantId: savedParticipantId })
+        }
+        if (savedParticipantName) {
+            this.setState({ participantName: savedParticipantName })
         }
     }
 
@@ -149,13 +203,15 @@ class ParticipantProvider extends React.Component {
             <ParticipantContext.Provider
                 value={
                     {
-                        state : this.state,
+                        state: this.state,
                         submitCode: (code) => this.submitCode(code),
 
                         handleQrData: (stepId) => this.handleQrData(stepId),
                         handleQrReadError: (error) => this.handleQrReadError(error),
 
-                        onContinueHunt: () => this.onContinueHunt()
+                        onContinueHunt: () => this.onContinueHunt(),
+
+                        addName: (name) => this.addName(name)
 
                     }
                 }>

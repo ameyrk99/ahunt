@@ -92,7 +92,7 @@ class CreateHunt extends React.Component {
                     </form>
                     <br/><br/>
 
-                    {huntCreated &&
+                    {/* {huntCreated &&
                         <div class="alert alert-dismissible alert-success">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
                             <strong>Hunt Created</strong> Add Steps: <a href="#" class="alert-link"></a>.
@@ -104,7 +104,7 @@ class CreateHunt extends React.Component {
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
                             <strong>Oh snap!</strong> Hunt Creation Failed
                       </div>
-                    }
+                    } */}
                     </div>
                 </div>
             </div>

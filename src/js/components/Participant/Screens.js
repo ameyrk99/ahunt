@@ -4,6 +4,7 @@ import CodeEnter from './CodeEnter'
 import Welcome from './Welcome'
 import ScanQr from './ScanQr';
 import StepContent from './StepContent'
+import Completed from './Completed'
 
 class Screens extends React.Component {
 
@@ -27,6 +28,9 @@ class Screens extends React.Component {
                             }
                             {isCodeValid && huntStatus == 'started' && stepId &&
                                 <StepContent />
+                            }
+                            {isCodeValid && huntStatus == 'ended' && stepId &&
+                                <Completed />
                             }
                         </div>
                         

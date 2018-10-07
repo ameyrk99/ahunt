@@ -37,7 +37,8 @@ class HuntsSteps extends React.Component {
                         {finishedSteps != null && 
                             Object.keys(finishedSteps).map( (step, i) => {
                                 return (
-                                    <FinishedStep key={i} stepName={finishedSteps[step].title} stepHint={finishedSteps[step].hint} image={finishedSteps[step].image? finishedSteps[step].image.url:null} stepFeedback={finishedSteps[step].feedback}/>
+                                    <div><FinishedStep key={i} stepName={finishedSteps[step].title} stepHint={finishedSteps[step].hint} image={finishedSteps[step].image? finishedSteps[step].image.url:null} stepFeedback={finishedSteps[step].feedback}/>
+                                    <br/></div>
                                 )
                         })}
                     </div>
