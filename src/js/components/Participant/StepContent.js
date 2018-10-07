@@ -1,7 +1,7 @@
 import React from 'react'
 import { ParticipantContext } from './ParticipantProvider';
 
-class StepContent extends Component {
+class StepContent extends React.Component {
     state = { 
 
      }

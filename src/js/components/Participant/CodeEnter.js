@@ -1,7 +1,7 @@
 import React from 'react'
 import { ParticipantContext } from './ParticipantProvider';
 
-class CodeEnter extends Component {
+class CodeEnter extends React.Component {
     state = {
         code: ''
     }
@@ -29,6 +29,7 @@ class CodeEnter extends Component {
                 {value => {
 
                     const { submitCode } = value
+                    const { isCodeValid } = value.state
 
                     return (
                         <div>

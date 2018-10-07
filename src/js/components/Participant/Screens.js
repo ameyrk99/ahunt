@@ -5,7 +5,7 @@ import Welcome from './Welcome'
 import ScanQr from './ScanQr';
 import StepContent from './StepContent'
 
-class Screens extends Component {
+class Screens extends React.Component {
 
     render() {
         return (

@@ -9,7 +9,7 @@ class ScanQr extends React.Component {
 
     render() {
 
-        const { delay }
+        const { delay } = this.state
 
         return (
             <ParticipantContext.Consumer>

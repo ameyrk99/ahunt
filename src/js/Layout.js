@@ -4,6 +4,7 @@ import HomePage from './components/Home/HomePage'
 import Register from './components/Register/Register'
 import Login from './components/Login/Login'
 import Dashboard from "./components/Dashboard/Dashboard"
+import Participant from './components/Participant/Participant'
 import './bootstrap.css'
 
 const Layout = () =>
@@ -14,6 +15,7 @@ const Layout = () =>
             <Route path='/login' exact component={Login} />
             <Route path='/register' exact component={Register} />
             <Route path='/dashboard' exact component={Dashboard} />
+            <Route path='/participant' exact component={Participant} />
         </Switch>
     </BrowserRouter>
 

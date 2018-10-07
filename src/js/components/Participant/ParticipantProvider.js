@@ -29,13 +29,14 @@ class ParticipantProvider extends React.Component {
     submitCode = (code) => {
         this.setState({ checkingCode: true })
 
-        axios.get('', {
+        axios.get('https://us-central1-kahunt-218617.cloudfunctions.net/checkCode', {
             params: {
                 code: code
             }
         })
             .then((response) => {
                 if (response.data) {
+                    console.log(response.data)
                     this.setState({
                         huntCreatorId: response.data.huntCreatorId,
                         huntCreatorName: response.data.huntCreatorName,
@@ -121,7 +122,7 @@ class ParticipantProvider extends React.Component {
             <ParticipantContext.Provider
                 value={
                     {
-                        state = this.state,
+                        state : this.state,
                         submitCode: (code) => this.submitCode(code),
 
                         handleQrData: (stepId) => this.handleQrData(stepId),

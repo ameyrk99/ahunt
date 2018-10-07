@@ -21,7 +21,7 @@ class Home extends React.Component {
                             </a>
                         </div>
                         <div className="col-lg-2">
-                            <a href="#">
+                            <a href="/participant">
                                 <div class="card rounded">
                                     <div class="card-body card-button">
                                         <h3>Join Hunt</h3>
