@@ -118,28 +118,13 @@ class Dashboard extends React.Component {
                 <Navbar
                     activeMenu={activeMenu}
                     activeHunt={activeHunt}
-<<<<<<< HEAD
-                    changeActiveMenu={(activeMenu) => this.setState({ activeMenu: activeMenu })} />
-
-                {this.state.activeMenu == 'noActiveHunt' &&
-                    // <NoActiveHunt/>
-                    <CreateHunt />
-                }
-=======
                     changeActiveMenu={ (activeMenu) => this.setState({activeMenu: activeMenu})}/>
->>>>>>> d205a6c68e8d67f4465edf72a5f17e18cd3e3522
                 {this.state.activeMenu == 'activeHunt' &&
                     <ActiveHunt />
                 }
                 {this.state.activeMenu == 'hunts' &&
                     <SavedHunts uid={uid} />
                 }
-<<<<<<< HEAD
-                {(this.state.activeMenu == 'newHunt' && !this.state.activeHunt) &&
-                    <CreateHunt
-                        goToCreatingSteps={this.changeToCreatingSteps.bind(this)}
-                        setHuntID={this.setHuntId.bind(this)} />
-=======
                 {(this.state.activeMenu=='newHunt' || this.state.activeMenu=='noActiveHunt' || (!this.state.activeHunt && this.state.activeMenu == 'activeHunt')) &&
                     <div style={{
                         paddingTop: "2%"
@@ -168,7 +153,6 @@ class Dashboard extends React.Component {
                             </div>
                         </div>
                     </div>
->>>>>>> d205a6c68e8d67f4465edf72a5f17e18cd3e3522
                 }
                 {this.state.activeMenu == 'newSteps' &&
 
