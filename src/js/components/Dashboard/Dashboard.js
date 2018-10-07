@@ -13,7 +13,8 @@ import './dashboard.css'
 class Dashboard extends React.Component {
     state = {
         signedOut: false,
-        activeMenu: '',
+        activeHunt: false,
+        activeMenu: 'noActiveHunt',
         uid: null,
         huntID: null
     }
@@ -45,6 +46,7 @@ class Dashboard extends React.Component {
         .then( (snapShot) => {
             if(snapShot.exists()) {
                 this.setState({
+                    activeHunt: true,
                     activeMenu: 'activeHunt'
                 })
             }
@@ -57,7 +59,7 @@ class Dashboard extends React.Component {
 
     render() {
 
-        const { uid, signedOut, activeMenu, huntID } = this.state
+        const { uid, signedOut, activeMenu, huntID, activeHunt } = this.state
 
         if (signedOut) {
             return <Redirect push to="/" />
@@ -67,13 +69,14 @@ class Dashboard extends React.Component {
             <div>
                 <Navbar 
                     activeMenu={activeMenu}
+                    activeHunt={activeHunt}
                     changeActiveMenu={ (activeMenu) => this.setState({activeMenu: activeMenu})}/>
 
-                {!this.state.activeMenu=='activeHunt' &&
+                {this.state.activeMenu == 'noActiveHunt' &&
                     // <NoActiveHunt/>
                     <CreateHunt/>
                 }
-                {this.state.activeMenu=='activeHunt' &&
+                {this.state.activeMenu == 'activeHunt' &&
                     <ActiveHunt /> 
                 }
                 {(this.state.activeMenu=='newHunt' && !this.state.activeHunt) &&

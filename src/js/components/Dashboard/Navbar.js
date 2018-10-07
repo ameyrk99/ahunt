@@ -1,12 +1,21 @@
 import React from 'react'
-
+import firebase from '../../firebase/firebase'
 
 class Navbar extends React.Component {
+
+    signOutWithFirebase = () => {
+        firebase.auth().signOut()
+            .then(() => {
+                console.log('signed out successfully')
+                this.setState({ signedOut: true })
+            })
+            .catch(() => console.log('failed to sign out'))
+    }
 
 
     render() {
 
-        const { changeActiveMenu, activeMenu } = this.props
+        const { changeActiveMenu, activeMenu, activeHunt } = this.props
 
         return (
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -18,7 +27,7 @@ class Navbar extends React.Component {
                 <div class="collapse navbar-collapse" id="navbarColor03">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class={(activeMenu=='activeHunt' || activeMenu=='noActiveMenu')?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('activeHunt')}>Home<span class="sr-only">(current)</span></a>
+                            <a class={(activeMenu=='activeHunt' || activeMenu=='noActiveMenu')?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu(activeHunt?'activeHunt':'noActiveHunt')}>Home<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class={activeMenu=='hunts'?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('hunts')}>Scavengar Hunts</a>

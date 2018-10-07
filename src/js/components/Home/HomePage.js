@@ -15,7 +15,7 @@ class Home extends React.Component {
                             <a href="/login">
                                 <div class="card rounded">
                                     <div class="card-body card-button">
-                                        <h3>Create Hunt</h3>
+                                        <h3>Creator</h3>
                                     </div>
                                 </div>
                             </a>
