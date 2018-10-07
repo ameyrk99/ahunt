@@ -111,7 +111,6 @@ class Login extends React.Component {
                         <div className="card rounded">
                             <div className="card-body">
                                 <form>
-
                                     <div class="form-group">
                                         <label for="email">Email address</label>
                                         <input type="email" class="form-control" name="email" value={email} aria-describedby="emailHelp" placeholder="Enter email" onChange={e => this.handleChange(e)} onKeyPress={this.handleKeyPress} />
