@@ -8,6 +8,7 @@ import Navbar from './Navbar'
 import CreateHunt from './CreateHunt'
 import HuntSteps from './HuntSteps'
 import Step from './Step'
+import SavedHunts from './SavedHunts'
 
 import './dashboard.css'
 class Dashboard extends React.Component {
@@ -79,8 +80,13 @@ class Dashboard extends React.Component {
                 {this.state.activeMenu == 'activeHunt' &&
                     <ActiveHunt /> 
                 }
+                {this.state.activeMenu == 'hunts' &&
+                    <SavedHunts uid={uid}/> 
+                }
                 {(this.state.activeMenu=='newHunt' && !this.state.activeHunt) &&
-                    <CreateHunt goToCreatingSteps = { () => this.setState({activeMenu: 'newSteps'})} setHuntID = { (huntID) => this.setState({huntID: huntID})}/>
+                    <CreateHunt 
+                    goToCreatingSteps={ () => this.setState({activeMenu: 'newSteps'})} 
+                    setHuntID = { (huntID) => this.setState({huntID: huntID})}/>
                 }
                 {this.state.activeMenu=='newSteps' && huntID &&
                     
