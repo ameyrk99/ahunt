@@ -109,6 +109,8 @@ class Step extends React.Component {
                                 </div>
                             </div>
                             <button type="button" class="btn btn-primary" onClick={this.submitStep}>Add Step</button>
+
+                            <button type="button" class="btn btn-alert" onClick={ () => this.props.changeActiveMenu('hunts')}>End And</button>
                         </fieldset>
                     </form>
                     <br/><br/>

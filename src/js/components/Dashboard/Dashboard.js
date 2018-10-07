@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
     state = {
         signedOut: false,
         activeHunt: false,
-        activeMenu: 'newSteps',
+        activeMenu: 'newHunt',
         uid: null,
         displayName: null,
         huntID: null,
@@ -162,7 +162,7 @@ class Dashboard extends React.Component {
                 {this.state.activeMenu == 'newSteps' && huntID &&
 
                     <div>
-                        <Step huntID={huntID} uid={uid} />
+                        <Step huntID={huntID} uid={uid} changeActiveMenu={ (activeMenu) => this.setState({activeMenu: activeMenu})}/>
                         <br /><br />
                         <HuntSteps huntID={huntID} uid={uid} />
                     </div>
