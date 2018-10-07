@@ -9,7 +9,7 @@
 * Functionality
 
 #### INTRODUCTION
-Frameworks included: ReactJS, Bootstrap, Filebase*
+Frameworks included: ReactJS, Bootstrap, Firebase*
 
 *used for the database
         
