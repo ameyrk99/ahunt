@@ -22,6 +22,7 @@ class Step extends React.Component {
         stepHint: '',
         stepImage: null,
         stepFeedback: '',
+        order: 1
     }
 
     submitStep = () => {
@@ -37,7 +38,8 @@ class Step extends React.Component {
             title: stepName,
             hint: stepHint,
             feedback: stepFeedback,
-            id: stepId
+            id: stepId,
+            order: order
         })
         .then( () => {
             console.log("Step Created")
@@ -46,6 +48,7 @@ class Step extends React.Component {
                 stepHint: '',
                 stepImage: null,
                 stepFeedback: '',
+                order: this.state.order + 1,
                 uid: null
             })
         })
