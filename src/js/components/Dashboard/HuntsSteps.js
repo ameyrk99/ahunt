@@ -1,6 +1,20 @@
 import React from 'react'
 import firebase from '../../firebase/firebase'
-import Navbar from '../Navbar/Navbar'
+
+// class DisplayStep extends React.Component {
+//     render() {
+//         const { stepName, stepHint, stepFeedback } = this.props
+
+//         return (
+//             <div>
+//                 <h5>Steps</h5>
+//                 <h6>Name: {stepName}</h6>
+//                 <p>Hint: {stepHint}</p>
+//                 <small>Feedback: {stepFeedback}</small>
+//             </div>
+//         )
+//     }
+// }
 
 class CreateStep extends React.Component {
     // state = {
@@ -41,21 +55,21 @@ class CreateStep extends React.Component {
         //     })
         // })
 
-        const {uid, stepName, stepHint, stepImage, stepFeedback} = this.state
-        const ref = firebase.database().ref("users").child(uid).child("hunts").child("saved")
-        const stepId = ref.push().key
-        ref.child(huntId).set({
-            step_name: stepName,
-            step_hint: stepHint,
-            step_feedback: stepFeedback
-        })
+        // const {uid, stepName, stepHint, stepImage, stepFeedback} = this.state
+        // const ref = firebase.database().ref("users").child(uid).child("hunts").child("saved")
+        // const stepId = ref.push().key
+        // ref.child(huntId).set({
+        //     step_name: stepName,
+        //     step_hint: stepHint,
+        //     step_feedback: stepFeedback
+        // })
     }
 
-    // handleChange = (e) => {
-    //     this.setState({
-    //         [e.target.name]: e.target.value
-    //     })
-    // }
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
 
     // checkIfSignedIn = () => {
     //     firebase.auth().onAuthStateChanged((user) => {
@@ -72,6 +86,7 @@ class CreateStep extends React.Component {
     render() {
 
         // const {huntName, huntDes, huntSteps, huntCreated, huntCreationFail} = this.state
+        const { stepName, stepHint, stepFeedback} = this.state
 
         return (
             <div style={{
@@ -79,19 +94,21 @@ class CreateStep extends React.Component {
             }}>
                 <div className="container">
                     <div className="jumbotron">
+                    {/* <DisplayStep stepName={stepName} stepHint={stepHint} stepFeedback={stepFeedback}/> */}
+
                     <form>
                         <fieldset>
                             <legend>Create Step</legend>
                             <div class="form-group row">
                                 <label for="stepName" class="col-sm-2 col-form-label">Name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="stepName"  placeholder="Step Name"/>
+                                    <input type="text" class="form-control" name="stepName" onChange={e => this.handleChange(e)}  placeholder="Step Name"/>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="hint" class="col-sm-2 col-form-label">Hint</label>
                                 <div class="col-sm-10">
-                                    <textarea class="form-control" name="stepHint"  placeholder="Step Hint" rows="3"></textarea>
+                                    <textarea class="form-control" name="stepHint" onChange={e => this.handleChange(e)}  placeholder="Step Hint" rows="3"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -101,7 +118,7 @@ class CreateStep extends React.Component {
                             <div class="form-group row">
                                 <label for="feedback" class="col-sm-2 col-form-label">Feedback</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="stepFeedback"  placeholder="Passed Step Feedback"/>
+                                    <input type="text" class="form-control" name="stepFeedback" onChange={e => this.handleChange(e)}  placeholder="Passed Step Feedback"/>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-primary" onClick={this.submitStep}>Add Step</button>
@@ -129,16 +146,4 @@ class CreateStep extends React.Component {
     }
 }
 
-class Steps extends React.Component {
-    render() {
-        return (
-            <div>
-                <Navbar/>
-
-                <CreateStep/>
-            </div>
-        )
-    }
-}
-
-export default Steps
+export default CreateStep

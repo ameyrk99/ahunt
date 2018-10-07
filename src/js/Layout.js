@@ -16,8 +16,6 @@ const Layout = () =>
             <Route path='/login' exact component={Login} />
             <Route path='/register' exact component={Register} />
             <Route path='/dashboard' exact component={Dashboard} />
-            <Route path='/createhunt' exact component={CreateHunt} />
-            <Route path='/huntsteps' exact component={HuntSteps} />
         </Switch>
     </BrowserRouter>
 

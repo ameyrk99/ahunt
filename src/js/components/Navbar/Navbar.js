@@ -2,7 +2,12 @@ import React from 'react'
 
 
 class Navbar extends React.Component {
+
+
     render() {
+
+        const { changeActiveMenu, activeMenu } = this.props
+
         return (
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="#">KHunt</a>
@@ -13,16 +18,16 @@ class Navbar extends React.Component {
                 <div class="collapse navbar-collapse" id="navbarColor03">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                            <a class={(activeMenu=='activeHunt' || activeMenu=='noActiveMenu')?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('activeHunt')}>Home<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/hunts">Scavengar Hunts</a>
+                            <a class={activeMenu=='hunts'?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('hunts')}>Scavengar Hunts</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/createhunt">New Hunt</a>
+                            <a class={activeMenu=='newHunt'?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('newHunt')}>New Hunt</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Settings</a>
+                            <a class={activeMenu=='settings'?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('settings')}>Settings</a>
                         </li>
                     </ul>
                 </div>

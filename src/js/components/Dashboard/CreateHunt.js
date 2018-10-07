@@ -1,8 +1,7 @@
 import React from 'react'
 import firebase from '../../firebase/firebase'
-import Navbar from '../Navbar/Navbar'
 
-class CreateForm extends React.Component {
+class CreateHunt extends React.Component {
 
     state = {
         huntName: '',
@@ -24,6 +23,7 @@ class CreateForm extends React.Component {
             this.setState({
                 huntCreated: true
             })
+            this.props.goToCreatingSteps()
         })
         .catch( (error) => {
             console.log(error)
@@ -96,18 +96,6 @@ class CreateForm extends React.Component {
                     }
                     </div>
                 </div>
-            </div>
-        )
-    }
-}
-
-class CreateHunt extends React.Component {
-    render() {
-        return(
-            <div>
-                <Navbar/>
-
-                <CreateForm/>
             </div>
         )
     }
