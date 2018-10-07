@@ -36,7 +36,7 @@ class Step extends React.Component {
         const ref = firebase.database().ref("users").child(uid).child("hunts").child("saved").child(huntID).child('steps')
         const stepId = ref.push().key
         this.setState({
-            qrCode: "http://api.qrserver.com/v1/create-qr-code/?data="+stepId+"&size=500x500"
+            qrCode: `http://api.qrserver.com/v1/create-qr-code/?data="${stepId}"&size=500x500`
         })
         ref.child(stepId).set({
             title: stepName,

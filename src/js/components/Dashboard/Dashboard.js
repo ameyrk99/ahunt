@@ -50,10 +50,10 @@ class Dashboard extends React.Component {
     }
 
     checkIfActiveHunt = () => {
-        const ref = firebase.database().ref("users").child(this.state.uid).child("hunts").child("active")
+        const ref = firebase.database().ref("users").child(this.state.uid).child("hunts").child("active").child('status')
         ref.once('value')
             .then((snapShot) => {
-                if (snapShot.exists()) {
+                if (snapShot.val() != 'ended' || !snapShot.val()) {
                     this.setState({
                         activeHuntId: snapShot.child('hunt_id').val(),
                         activeHunt: true,

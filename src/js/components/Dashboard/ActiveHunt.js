@@ -2,44 +2,6 @@ import React from 'react'
 import firebase from '../../firebase/firebase'
 import './dashboard.css'
 
-const participants = [
-    {
-        name: "Hermionie",
-        id: "ajsdlAFaf",
-        currentStep: 4
-    },
-    {
-        name: "Harry",
-        id: "Adsfaeag",
-        currentStep: 6
-    },
-    {
-        name: "Ron",
-        id: "asdfarFAs",
-        currentStep: 3
-    },
-    {
-        name: "Voldermot",
-        id: "asdataARARArsd",
-        currentStep: 10
-    }
-]
-
-const totalSteps = 10
-
-const steps = [
-    'Step 1',
-    'Step 2',
-    'Step 3',
-    'Step 4',
-    'Step 5',
-    'Step 6',
-    'Step 7',
-    'Step 8',
-    'Step 9',
-    'Destination',
-]
-
 class ActiveHunt extends React.Component {
 
     state = {
