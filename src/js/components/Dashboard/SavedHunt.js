@@ -135,12 +135,6 @@ class SavedHunt extends React.Component {
                         {status &&
                             <div>status</div>
                         }
-                        {status == 'initiated' &&
-                            <button onClick={this.onStartClickHandler}>Start</button>
-                        }
-                        {status == 'started' &&
-                            <button onClick={this.onEndClickHandler}>Start</button>
-                        }
                         <div className="col-md-2">
                             <button 
                                 type="button" 
