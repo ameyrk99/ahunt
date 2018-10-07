@@ -16,6 +16,7 @@ class SavedHunts extends React.Component {
         }
         const ref = firebase.database().ref("users").child(uid).child("hunts").child("saved")
         ref.on('value', (snapShot) => {
+            console.log(snapShot.val())
             this.setState({
                 savedHunts: snapShot.val()
             })
@@ -37,7 +38,12 @@ class SavedHunts extends React.Component {
                 {savedHunts != null &&
                     Object.keys(savedHunts).map((hunt, i) => {
                         return (
-                           <SavedHunt key={i} huntId={savedHunts[hunt].id} huntName={savedHunts[hunt].hunt_name} huntDes={savedHunts[hunt].hunt_description} uid={uid} /> 
+                           <SavedHunt 
+                                key={i} 
+                                huntId={savedHunts[hunt].id} 
+                                huntName={savedHunts[hunt].hunt_name} 
+                                huntDes={savedHunts[hunt].hunt_description} 
+                                uid={uid} /> 
                         )
                     })}
             </div>
