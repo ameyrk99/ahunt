@@ -119,14 +119,27 @@ class Login extends React.Component {
                                     <div class="form-group">
                                         <label for="password">Password</label>
                                         <input type="password" class="form-control" name="password" value={password} placeholder="Password" onChange={e => this.handleChange(e)} onKeyPress={this.handleKeyPress} />
+                                    </div><br/>
+                                    <div className="row">
+                                        <div className="col-sm-2">
+                                            <button
+                                            type="button"
+                                            value="Log In"
+                                            className="btn btn-primary rounded"
+                                            onClick={this.authenticateWithFirebase}>
+                                            Login
+                                            </button>
+                                        </div>
+                                        <div className="col-sm-2">
+                                            <button
+                                                type="button"
+                                                value="Redirect To Register"
+                                                className="btn btn-success rounded">
+                                                Register
+                                            </button>
+                                        </div>
                                     </div>
-                                    <button
-                                        type="button"
-                                        value="Log In"
-                                        className="btn btn-primary rounded"
-                                        onClick={this.authenticateWithFirebase}>
-                                        Login
-                                    </button>
+                                    
                                 </form>
                             </div>
                         </div>
