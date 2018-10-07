@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import './createForm.css'
 
 class CreateForm extends React.Component {
     render() {
@@ -9,7 +9,35 @@ class CreateForm extends React.Component {
             }}>
                 <div className="container">
                     <div className="jumbotron">
-                        <h1>Hello</h1>
+                    <form>
+                        <fieldset>
+                            <legend>Create Step</legend>
+                            <div class="form-group row">
+                                <label for="stepName" class="col-sm-2 col-form-label">Step Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control-plaintext" id="stepName" placeholder="Step Name"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="hint" class="col-sm-2 col-form-label">Hint</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control-plaintext" id="hint" placeholder="Step Hint"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="feedback" class="col-sm-2 col-form-label">Feedback</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control-plaintext" id="feedback" placeholder="Step Passed! Feedback"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="stepImage">Step Image</label>
+                                <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"/>
+                                <small id="fileHelp" class="form-text text-muted">Image for step</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </fieldset>
+                    </form>
                     </div>
                 </div>
             </div>
