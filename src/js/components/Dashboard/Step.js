@@ -36,7 +36,8 @@ class Step extends React.Component {
         ref.child(stepId).set({
             title: stepName,
             hint: stepHint,
-            feedback: stepFeedback
+            feedback: stepFeedback,
+            id: stepId
         })
         .then( () => {
             console.log("Step Created")

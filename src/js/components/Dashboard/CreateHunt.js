@@ -18,7 +18,8 @@ class CreateHunt extends React.Component {
 
         ref.child(huntId).set({
             hunt_name: huntName,
-            hunt_description: huntDes
+            hunt_description: huntDes,
+            id: huntId
         })
         .then( () => {
             this.setState({
