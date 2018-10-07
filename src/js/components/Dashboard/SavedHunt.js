@@ -88,17 +88,17 @@ class SavedHunt extends React.Component {
                     let buttonAction
                     if (!status || status == 'ended') {
                         buttonAction='Initiate'
-                        this.initiateHunt(this.props.uid, this.props.huntId)
                     }
                     if (status == 'initiated') {
-                        this.onStartClickHandler()
+                        buttonAction='Start'
                     }
                     if (status == 'started'){
-                        this.onEndClickHandler()
+                        buttonAction='End'
                     }
                     this.setState({
                         status: status,
-                        code: snapshot.child('hunt_code').val()
+                        code: snapshot.child('hunt_code').val(),
+                        buttonAction: buttonAction
                     })
                 }
             })

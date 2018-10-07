@@ -65,7 +65,7 @@ class ActiveHunt extends React.Component {
 
     render() {
 
-        const { displayName, participants, participantsLoaded, steps } = this.props
+        const { displayName, participants, participantsLoaded, steps } = this.state
         return (
             <div style={{
                 paddingTop: "2%"

@@ -157,12 +157,12 @@ class Dashboard extends React.Component {
                         </div>
                     </div>
                 }
-                {this.state.activeMenu == 'newSteps' &&
+                {this.state.activeMenu == 'newSteps' && huntID &&
 
                     <div>
-                        <Step huntID={'-LOCz1XkIhgBVqqI0PVJ'} uid={uid} />
+                        <Step huntID={huntID} uid={uid} />
                         <br /><br />
-                        <HuntSteps huntID={'-LOCz1XkIhgBVqqI0PVJ'} uid={uid} />
+                        <HuntSteps huntID={huntID} uid={uid} />
                     </div>
                 }
             </div>
