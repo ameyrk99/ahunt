@@ -1,8 +1,62 @@
 import React from 'react'
 import './createForm.css'
+import firebase from '../../firebase/firebase'
 
 class CreateForm extends React.Component {
+
+    state = {
+        huntName: '',
+        huntDes: '',
+        huntSteps: 0,
+        huntCreated: false,
+        huntCreationFail: false
+    }
+
+    submitForm = () => {
+        // console.log("Hunt Created")
+        const {uid, huntName, huntDes, huntSteps} = this.state
+        const ref = firebase.database().ref("users").child(uid).child("hunts").child("saved")
+        const huntId = ref.push().key
+        ref.child(huntId).set({
+            hunt_name: huntName,
+            hunt_description: huntDes,
+            hunt_steps: huntSteps
+        })
+        .then( () => {
+            this.setState({
+                huntCreated: true
+            })
+        })
+        .catch( (error) => {
+            console.log(error)
+            this.setState({
+                huntCreationFail: true
+            })
+        })
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
+    checkIfSignedIn = () => {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user && user.displayName) {
+                this.setState({ uid: user.uid })
+            }
+        })
+    }
+
+    componentDidMount = () => {
+        this.checkIfSignedIn()
+    }
+
     render() {
+
+        const {huntName, huntDes, huntSteps, huntCreated, huntCreationFail} = this.state
+
         return (
             <div style={{
                 paddingTop: "2%"
@@ -13,31 +67,41 @@ class CreateForm extends React.Component {
                         <fieldset>
                             <legend>Create Step</legend>
                             <div class="form-group row">
-                                <label for="stepName" class="col-sm-2 col-form-label">Step Name</label>
+                                <label for="huntName" class="col-sm-2 col-form-label">Hunt Name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control-plaintext" id="stepName" placeholder="Step Name"/>
+                                    <input type="text" class="form-control" value={huntName} name="huntName" onChange={e => this.handleChange(e)} placeholder="Step Name"/>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="hint" class="col-sm-2 col-form-label">Hint</label>
+                                <label for="description" class="col-sm-2 col-form-label">Description</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control-plaintext" id="hint" placeholder="Step Hint"/>
+                                    <textarea class="form-control" value={huntDes} name="huntDes" onChange={e => this.handleChange(e)} placeholder="Hunt Description" rows="3"></textarea>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="feedback" class="col-sm-2 col-form-label">Feedback</label>
+                                <label for="steps" class="col-sm-2 col-form-label">Steps</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control-plaintext" id="feedback" placeholder="Step Passed! Feedback"/>
+                                    <input type="number" class="form-control" value={huntSteps} name="huntSteps" onChange={e => this.handleChange(e)} placeholder="Total Number of Steps"/>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="stepImage">Step Image</label>
-                                <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"/>
-                                <small id="fileHelp" class="form-text text-muted">Image for step</small>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-primary" onClick={this.submitForm}>Submit</button>
                         </fieldset>
                     </form>
+                    <br/><br/>
+
+                    {huntCreated &&
+                        <div class="alert alert-dismissible alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Hunt Created</strong> Add Steps: <a href="#" class="alert-link"></a>.
+                      </div>
+                    }
+
+                    {huntCreationFail &&
+                        <div class="alert alert-dismissible alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Oh snap!</strong> Hunt Creation Failed
+                      </div>
+                    }
                     </div>
                 </div>
             </div>
@@ -61,10 +125,10 @@ class CreateHunt extends React.Component {
                                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Scavengar Hunts</a>
+                                <a class="nav-link" href="/hunts">Scavengar Hunts</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">New Hunt</a>
+                                <a class="nav-link" href="/createhunt">New Hunt</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Settings</a>

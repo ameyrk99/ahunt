@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import firebase from '../../firebase/firebase'
-import './progressbars.css'
+import './dashboard.css'
 
 const participants = [
     {
@@ -40,6 +40,22 @@ const steps = [
     'Step 9',
     'Destination',
 ]
+
+class NoActiveHunt extends React.Component {
+    render() {
+        return (
+            <div className="createPrompt">
+                <div className="container">
+                    <div className="jumbotron">
+                        <a href="/createhunt">
+                            <h2>Create One Here + :)</h2>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
 
 class Hunt extends React.Component {
 
@@ -119,7 +135,8 @@ class Hunt extends React.Component {
 
 class Dashboard extends React.Component {
     state = {
-        signedOut: false
+        signedOut: false,
+        activeHunt: true
     }
 
     signOutWithFirebase = () => {
@@ -154,7 +171,7 @@ class Dashboard extends React.Component {
         return (
             <div>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <a class="navbar-brand" href="#">KHunt</a>
+                    <a class="navbar-brand" href="/">KHunt</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -165,10 +182,10 @@ class Dashboard extends React.Component {
                                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Scavengar Hunts</a>
+                                <a class="nav-link" href="/hunts">Scavengar Hunts</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">New Hunt</a>
+                                <a class="nav-link" href="/createhunt">New Hunt</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Settings</a>
@@ -178,7 +195,12 @@ class Dashboard extends React.Component {
                     <button class="btn btn-secondary my-2 my-sm-0" onClick={this.signOutWithFirebase} >Sign Out</button>
                 </nav>
 
-                <Hunt />
+                {!this.state.activeHunt &&
+                    <NoActiveHunt/>
+                }
+                {this.state.activeHunt &&
+                    <Hunt /> 
+                }
             </div>
         )
     }
