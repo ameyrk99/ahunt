@@ -10,8 +10,7 @@ class QRGen extends React.Component {
 
         return (
             <div>
-                <label>{stepName}: {' '}</label>
-                <a href={qrCode}>Link</a>
+                <a href={qrCode} target="_blank"><span>QR for Step - {stepName} {' '}</span></a>
                 {/* <img src={qrCode} alt="Step QR"/> */}
             </div>
         )

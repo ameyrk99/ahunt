@@ -130,11 +130,9 @@ class SavedHunt extends React.Component {
                             <QRPage uid={uid} huntID={huntId}/>
                         </div>
                          {code && 
-                            <div>{code}</div>
+                            <div>Code: {code}</div>
                         }
-                        {status &&
-                            <div>status</div>
-                        }
+                        
                         <div className="col-md-2">
                             <button 
                                 type="button" 
