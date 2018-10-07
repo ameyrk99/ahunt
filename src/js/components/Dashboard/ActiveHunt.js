@@ -11,6 +11,9 @@ class ActiveHunt extends React.Component {
 
     fetchParticipants = () => {
         console.log(this.props.uid, this.props.activeHuntId)
+        if (!this.props.uid || !this.props.activeHuntId) {
+            return
+        }
         firebase.database().ref('users').child(this.props.uid).child('hunts/saved').child(this.props.activeHuntId)
             .on('value', (snapShot) => {
                 console.log(snapShot.val())
