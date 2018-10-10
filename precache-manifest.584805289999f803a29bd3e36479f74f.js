@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/ahunt/static/css/main.62bc8234.chunk.css"
   },
   {
-    "revision": "487f60e679ab6f758d540531523ae9a1",
+    "revision": "a5c25015e83000321dec3bfb5e8fe15f",
     "url": "/ahunt/index.html"
   }
 ];
