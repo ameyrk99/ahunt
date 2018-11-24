@@ -3,8 +3,11 @@ var webpack = require('webpack')
 var path = require('path')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 
+var DIST_DIR = path.resolve(__dirname, "dist")
+var SRC_DIR = path.resolve(__dirname, "src")
+
 module.exports = {
-  entry: './src/js/index.js',
+  entry: SRC_DIR + "/js/index.js",
   module: {
     rules: [
       {
@@ -19,14 +22,14 @@ module.exports = {
     ]
   },
   output: {
-    path: __dirname + "/src/dist",
-    filename: "project_bundle.js",
+    path: DIST_DIR,
+    filename: "bundle.js",
     publicPath: '/'
   },
   devServer: {
     historyApiFallback: true,
   },
   plugins: [
-    new HtmlWebPackPlugin({ template: "./src/index.html" })
+    new HtmlWebPackPlugin({ template: SRC_DIR + "/index.html" })
   ]
 }

@@ -7,6 +7,7 @@ export const ParticipantContext = React.createContext()
 class ParticipantProvider extends React.Component {
     state = {
         isCodeValid: false,
+        codeSubmitted: false,
         checkingCode: false,
 
         huntCreatorId: null,
@@ -57,7 +58,8 @@ class ParticipantProvider extends React.Component {
                         huntSteps: response.data.huntSteps,
 
                         isCodeValid: true,
-                        checkingCode: false
+                        checkingCode: false,
+                        codeSubmitted: true
                     })
                     localStorage.setItem('huntCode', code)
                     this.fetchHuntStatus()
@@ -65,13 +67,14 @@ class ParticipantProvider extends React.Component {
                 else {
                     this.setState({
                         isCodeValid: false,
-                        checkingCode: false
+                        checkingCode: false,
+                        codeSubmitted: true
                     })
                 }
 
             })
             .catch((error) => {
-                this.setState({ isCodeValid: true, checkingCode: false })
+                this.setState({ isCodeValid: false, checkingCode: false })
                 console.log('unable to check code', error)
             })
     }

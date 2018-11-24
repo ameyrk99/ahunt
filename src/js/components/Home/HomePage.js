@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Link } from 'react-router-dom'
 import './home.css'
 
 class Home extends React.Component {
@@ -12,22 +13,22 @@ class Home extends React.Component {
                     <div className="row options">
                         <div className="col-lg-4"></div>
                         <div className="col-lg-2">
-                            <a href="/login">
+                            <Link to={"/login"}>
                                 <div class="card rounded">
                                     <div class="card-body card-button">
                                         <h3>Creator</h3>
                                     </div>
                                 </div>
-                            </a>
+                            </Link>
                         </div>
                         <div className="col-lg-2">
-                            <a href="/participant">
+                            <Link to={`/participants`}>
                                 <div class="card rounded">
                                     <div class="card-body card-button">
                                         <h3>Join Hunt</h3>
                                     </div>
                                 </div>
-                            </a>
+                            </Link>
                         </div>
                         <div className="col-lg-4"></div>
                     </div>

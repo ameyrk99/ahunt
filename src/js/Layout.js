@@ -1,5 +1,5 @@
 import React from "react"
-import { Route, BrowserRouter, Switch } from 'react-router-dom'
+import { Route, BrowserRouter, Switch, HashRouter } from 'react-router-dom'
 import HomePage from './components/Home/HomePage'
 import Register from './components/Register/Register'
 import Login from './components/Login/Login'
@@ -9,7 +9,7 @@ import './bootstrap.css'
 
 const Layout = () =>
 
-    <BrowserRouter>
+    <HashRouter>
         <Switch>
             <Route path='/' exact component={HomePage} />
             <Route path='/login' exact component={Login} />
@@ -17,6 +17,6 @@ const Layout = () =>
             <Route path='/dashboard' exact component={Dashboard} />
             <Route path='/participant' exact component={Participant} />
         </Switch>
-    </BrowserRouter>
+    </HashRouter>
 
 export default Layout

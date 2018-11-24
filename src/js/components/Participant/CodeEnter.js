@@ -21,7 +21,7 @@ class CodeEnter extends React.Component {
             <ParticipantContext.Consumer>
                 {value => {
 
-                    const { submitCode } = value
+                    const { submitCode, codeSubmitted } = value
                     const { isCodeValid } = value.state
 
                     return (
@@ -31,7 +31,7 @@ class CodeEnter extends React.Component {
                                 padding: "2%",
                                 paddingTop: "5%",
                             }}>
-                                {(!code || code != '') && !isCodeValid &&
+                                {codeSubmitted && !isCodeValid &&
                                     <div>Invalid Code. Try Again</div>
                                 }
 
