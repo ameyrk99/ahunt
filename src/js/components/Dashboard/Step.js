@@ -93,7 +93,7 @@ class Step extends React.Component {
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="hint" class="col-sm-2 col-form-label">Hint</label>
+                                <label for="hint" class="col-sm-2 col-form-label">Hint for Next Step</label>
                                 <div class="col-sm-10">
                                     <textarea class="form-control" name="stepHint" value={stepHint}  onChange={e => this.handleChange(e)}  placeholder="Step Hint" rows="3"></textarea>
                                 </div>

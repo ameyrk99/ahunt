@@ -21,12 +21,13 @@ class ActiveHunt extends React.Component {
                     participants: snapShot.child('participants').val(),
                     participantsLoaded: true,
                     steps: snapShot.child('steps').val()
-                })
+                }, () => console.log(this.state.participants, this.state.steps) )
             })
     }
 
     componentDidMount = () => {
         this.fetchParticipants()
+
     }
 
     render() {
@@ -42,10 +43,11 @@ class ActiveHunt extends React.Component {
 
                         <br />
                         
-                        {(participantsLoaded) &&
+                        {(participantsLoaded && participants) &&
                             <div>
                                 <h3>Participants: {Object.keys(participants).length}</h3>
                                 {Object.keys(participants).map((participant) => {
+                                    
                                     return (
                                         <div key={participants[participant].id}>
                                             <div style={{
@@ -53,9 +55,9 @@ class ActiveHunt extends React.Component {
                                                 paddingTop: "1%"
                                             }}>
                                                 {participants[participant].name}:<br />
-                                                <p style={{ paddingLeft: "1%" }}>Current Step: {participants[participant].current_step_count} {participants[participant].current_step_title}</p>
+                                                <p style={{ paddingLeft: "1%" }}>Current Step: {participants[participant].current_step_order || 0} {participants[participant].current_step_title}</p>
 
-                                                {participants[participant].current_step_count === Object.keys(steps).length &&
+                                                {participants[participant].current_step_order === Object.keys(steps).length &&
                                                     <div class="progress">
                                                         <div class="progress-bar bg-success" role="progressbar" style={{
                                                             width: "100%",
@@ -67,10 +69,10 @@ class ActiveHunt extends React.Component {
 
                                                 }
 
-                                                {participants[participant].current_step_count != Object.keys(steps).length &&
+                                                {participants[participant].current_step_order != Object.keys(steps).length &&
                                                     <div class="progress">
                                                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style={{
-                                                            width: participants[participant].current_step_count * 1000 / Object.keys(steps).length,
+                                                            width: participants[participant].current_step_order * 1000 / (Object.keys(steps).length + 1),
                                                             ariaValuenow: 40,
                                                             ariaValuemin: 0,
                                                             ariaValuemax: 100

@@ -11,11 +11,11 @@ const Layout = () =>
 
     <HashRouter>
         <Switch>
+            <Route path='/participant' exact component={Participant} />
             <Route path='/' exact component={HomePage} />
             <Route path='/login' exact component={Login} />
             <Route path='/register' exact component={Register} />
             <Route path='/dashboard' exact component={Dashboard} />
-            <Route path='/participant' exact component={Participant} />
         </Switch>
     </HashRouter>
 

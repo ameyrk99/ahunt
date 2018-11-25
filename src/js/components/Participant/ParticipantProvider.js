@@ -190,6 +190,7 @@ class ParticipantProvider extends React.Component {
     }
 
     componentDidMount = () => {
+    
         const savedCode = localStorage.getItem('huntCode')
         const savedParticipantId = localStorage.getItem('participantId')
         const savedParticipantName = localStorage.getItem('participantName')

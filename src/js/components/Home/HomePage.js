@@ -22,7 +22,7 @@ class Home extends React.Component {
                             </Link>
                         </div>
                         <div className="col-lg-2">
-                            <Link to={`/participants`}>
+                            <Link to={`/participant`}>
                                 <div class="card rounded">
                                     <div class="card-body card-button">
                                         <h3>Join Hunt</h3>

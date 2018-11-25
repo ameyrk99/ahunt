@@ -5,6 +5,10 @@ import Screens from './Screens'
 
 class Participant extends React.Component {
 
+    componentDidMount =() => {
+        console.log('started')
+    }
+
     render() {
         return (
             <ParticipantProvider>
