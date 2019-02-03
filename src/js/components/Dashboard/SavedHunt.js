@@ -1,21 +1,23 @@
 import React from 'react'
 import axios from 'axios'
-import QRPage from "../QRPage/QRPage"
+import QRPage from "./QRPage/QRPage"
 import firebase from '../../firebase/firebase'
+import DashboardContext from './DashboardContext'
 
 class SavedHunt extends React.Component {
+
+    static contextType = DashboardContext
 
     state = {
         checkingCode: false,
         code: null,
         status: null,
         buttonAction: 'Initiate'
-
     }
 
     initiateHunt = (uid, huntId) => {
-        this.setState({ 
-            checkingCode: true, 
+        this.setState({
+            checkingCode: true,
             code: null,
             buttonAction: '...'
         })
@@ -36,54 +38,79 @@ class SavedHunt extends React.Component {
                         checkingCode: false,
                         buttonAction: 'Start'
                     })
+                    this.context.checkIfActiveHunt()
                 }
                 else {
                     this.setState({
                         checkingCode: false,
-                        
+
                     })
                 }
 
             })
             .catch((error) => {
-                this.setState({ isCodeValid: true, checkingCode: false })
+                this.setState({ checkingCode: false })
                 console.log('unable to check code', error)
             })
     }
 
     buttonHandler = () => {
         const { status, code } = this.state
+        const { uid } = this.context.state
         if (!status || status == 'ended') {
-            this.initiateHunt(this.props.uid, this.props.huntId)
+            this.initiateHunt(uid, this.props.huntId)
         }
         if (status == 'initiated') {
             this.onStartClickHandler()
         }
-        if (status == 'started'){
+        if (status == 'started') {
             this.onEndClickHandler()
         }
     }
 
     onStartClickHandler = () => {
-        firebase.database().ref('users').child(this.props.uid).child('hunts/active')
+        const { uid } = this.context.state
+        firebase.database().ref('users').child(uid).child('hunts/active')
             .update({
                 status: 'started'
             })
-            .then( () => this.setState({buttonAction: 'End'}))
+            .then(() => {
+                this.setState({ buttonAction: 'End' })
+                this.context.checkIfActiveHunt()
+            })
     }
 
     onEndClickHandler = () => {
-        firebase.database().ref('users').child(this.props.uid).child('hunts/active')
+        const { uid } = this.context.state
+        firebase.database().ref('users').child(uid).child('hunts/active')
             .update({
                 status: 'ended'
             })
-            .then( () => {
-                this.setState({buttonAction: 'Initiate', code: null})
+            .then(() => {
+                this.setState({ buttonAction: 'Initiate', code: null })
+                this.context.checkIfActiveHunt()
             })
     }
 
+    resetParticipation = () => {
+        const { uid } = this.context.state
+        const { huntId } = this.props
+
+        firebase.database().ref('users').child(uid).child('hunts/saved').child(huntId).child('participants').remove()
+            .catch( (error) => console.log('unable to delete participants', error))
+    }
+
+    deleteHunt = () => {
+        const { uid } = this.context.state
+        const { huntId } = this.props
+
+        firebase.database().ref('users').child(uid).child('hunts/saved').child(huntId).remove()
+            .catch( (error) => console.log('unable to delete hunt', error))
+    }
+
     fetchCodeAndStatus = () => {
-        firebase.database().ref('users').child(this.props.uid).child('hunts/active')
+        const { uid } = this.context.state
+        firebase.database().ref('users').child(uid).child('hunts/active')
             .on('value', (snapshot) => {
                 console.log(snapshot.child('hunt_id').val(), this.props.huntId)
                 if (snapshot.child('hunt_id').val() == this.props.huntId) {
@@ -91,14 +118,14 @@ class SavedHunt extends React.Component {
                     let buttonAction
                     let code = snapshot.child('hunt_code').val()
                     if (!status || status == 'ended') {
-                        buttonAction='Initiate'
-                        code=null
+                        buttonAction = 'Initiate'
+                        code = null
                     }
                     if (status == 'initiated') {
-                        buttonAction='Start'
+                        buttonAction = 'Start'
                     }
-                    if (status == 'started'){
-                        buttonAction='End'
+                    if (status == 'started') {
+                        buttonAction = 'End'
                     }
                     this.setState({
                         status: status,
@@ -116,9 +143,9 @@ class SavedHunt extends React.Component {
     render() {
 
         // const {huntName, huntDes, huntSteps, huntCreated, huntCreationFail} = this.state
-        const { huntName, huntDes, uid, huntId } = this.props
+        const { huntName, huntDes, huntId, huntParticipants, huntSteps } = this.props
 
-        const {checkingCode, code, buttonAction} = this.state
+        const { checkingCode, code, buttonAction } = this.state
 
         return (
             <div className="container">
@@ -131,21 +158,35 @@ class SavedHunt extends React.Component {
                         <div className="col-md-8">
                             <h3>{huntName}</h3>
                             <p>{huntDes}</p>
-                            <QRPage uid={uid} huntID={huntId}/>
+                            <QRPage huntID={huntId} />
+                            {huntSteps && <div>{Object.keys(huntSteps).length} Steps</div>}
+                            {huntParticipants && (!status || status == 'ended') &&
+                                <div>
+                                    <h5>Previous Participants</h5>
+                                    {Object.keys(huntParticipants).map( (participant) => {
+                                        return (
+                                            <div key={huntParticipants[participant].id}>
+                                                <h6>{huntParticipants[participant].name}</h6>
+                                            </div>
+                                        )
+                                    })}
+                                </div>   
+                            }
+
                         </div>
-                         {code && (buttonAction != 'Initiate' || buttonAction != 'End') &&
+                        {code && (buttonAction != 'Initiate' || buttonAction != 'End') &&
                             <div>Code: {code}</div>
                         }
-                        
+
                         <div className="col-md-2">
-                            <button 
-                                type="button" 
-                                class="btn btn-success" 
+                            <button
+                                type="button"
+                                class="btn btn-success"
                                 onClick={this.buttonHandler}>{buttonAction}</button>
                             {checkingCode &&
                                 <div>Initiating</div>
                             }
-                            
+
                         </div>
                         <div className="col-md-1"></div>
                     </div>

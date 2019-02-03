@@ -1,9 +1,30 @@
 import React from 'react'
 import DashboardContext from './DashboardContext'
+import firebase from '../../firebase/firebase'
 
 class DashboardProvider extends React.Component {
     state = {
-        activeMenu: 'activeHunt'
+        signedOut: false,
+        activeHunt: false,
+        activeHuntId: null,
+        activeMenu: 'activeHunt',
+
+        uid: null,
+        displayName: null,
+
+        huntID: null,
+        huntName: '',
+        huntDes: '',
+
+        huntCreated: false,
+        huntCreationFail: false,
+
+        // checkingIfActiveHunt: false,
+        checkedIfActiveHunt: false
+    }
+
+    changeActiveMenu = (activeMenu) => {
+        this.setState({activeMenu: activeMenu})
     }
 
     signOutWithFirebase = () => {
@@ -29,18 +50,27 @@ class DashboardProvider extends React.Component {
     }
 
     checkIfActiveHunt = () => {
-        console.log('check if active hunt fired')
+        const { activeMenu } = this.state
         const ref = firebase.database().ref("users").child(this.state.uid).child("hunts").child("active")
         ref.once('value')
             .then((snapShot) => {
-                console.log(snapShot.val())
+
                 if (snapShot.exists() && (snapShot.child('status').val() != 'ended' || !snapShot.child('status').val())) {
                     this.setState({
                         activeHuntId: snapShot.child('hunt_id').val(),
                         activeHunt: true,
-                        activeMenu: 'activeHunt'
+                        activeMenu: activeMenu != 'hunts' ? 'activeHunt' : 'hunts'
                     })
                 }
+                else {
+                    this.setState({
+                        activeHuntId: null,
+                        activeHunt: false,
+                        activeMenu: activeMenu != 'hunts' ? 'activeHunt' : 'hunts'
+                    })
+                }
+
+                this.setState({checkedIfActiveHunt: true})
             })
     }
 
@@ -95,7 +125,9 @@ class DashboardProvider extends React.Component {
                 value={
                     {
                         state: this.state,
-                        signOutWithFirebase: this.signOutWithFirebase
+                        signOutWithFirebase: this.signOutWithFirebase,
+                        checkIfActiveHunt: this.checkIfActiveHunt,
+                        changeActiveMenu: (activeMenu) => this.changeActiveMenu(activeMenu)
                     }
                 }>
                 {this.props.children}

@@ -11,67 +11,19 @@ import Step from './Step'
 import SavedHunts from './SavedHunts'
 
 import './dashboard.css'
+import DashboardContext from './DashboardContext'
+
+
 class Dashboard extends React.Component {
+
+    static contextType = DashboardContext
+
     state = {
-        signedOut: false,
-        activeHunt: false,
-        activeMenu: 'newHunt',
-        uid: null,
-        displayName: null,
         huntID: null,
         huntName: '',
         huntDes: '',
         huntCreated: false,
-        huntCreationFail: false
-    }
-
-
-
-    signOutWithFirebase = () => {
-        firebase.auth().signOut()
-            .then(() => {
-                console.log('signed out successfully')
-                this.setState({ signedOut: true })
-            })
-            .catch(() => console.log('failed to sign out'))
-    }
-
-    checkIfSignedIn = () => {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (!user) {
-                this.setState({ signedOut: true })
-            } else {
-                this.setState({
-                    uid: user.uid,
-                    displayName: user.displayName
-                }, () => this.checkIfActiveHunt())
-            }
-        })
-    }
-
-    checkIfActiveHunt = () => {
-        console.log('check if active hunt fired')
-        const ref = firebase.database().ref("users").child(this.state.uid).child("hunts").child("active")
-        ref.once('value')
-            .then((snapShot) => {
-                console.log(snapShot.val())
-                if (snapShot.exists() && (snapShot.child('status').val() != 'ended' || !snapShot.child('status').val() ))  {
-                    this.setState({
-                        activeHuntId: snapShot.child('hunt_id').val(),
-                        activeHunt: true,
-                        activeMenu: 'activeHunt'
-                    })
-                }
-            })
-    }
-
-    changeToCreatingSteps = () => {
-        this.setState({ activeMenu: 'newSteps' })
-        
-    }
-
-    setHuntId = (newHuntID) => {
-        this.setState({ huntID: newHuntID })
+        huntCreationFail: false,
     }
 
     handleChange = (e) => {
@@ -106,13 +58,11 @@ class Dashboard extends React.Component {
         })
     }
 
-    componentDidMount = () => {
-        this.checkIfSignedIn()
-    }
-
     render() {
 
-        const { uid, displayName, activeHuntId, signedOut, activeMenu, huntID, activeHunt, huntName, huntDes } = this.state
+        const { displayName, activeHuntId, signedOut, huntID, activeHunt, huntName, huntDes } = this.state
+
+        const { activeMenu, uid } = this.context.state
 
         if (signedOut) {
             return <Redirect push to="/" />
@@ -120,17 +70,14 @@ class Dashboard extends React.Component {
 
         return (
             <div>
-                <Navbar
-                    activeMenu={activeMenu}
-                    activeHunt={activeHunt}
-                    changeActiveMenu={ (activeMenu) => this.setState({activeMenu: activeMenu})}/>
-                {this.state.activeMenu == 'activeHunt' && uid &&
-                    <ActiveHunt uid={uid} displayName={displayName} activeHuntId={activeHuntId} />
+                <Navbar />
+                {activeMenu == 'activeHunt' &&
+                    <ActiveHunt />
                 }
-                {this.state.activeMenu == 'hunts' &&
-                    <SavedHunts uid={uid} />
+                {activeMenu == 'hunts' &&
+                    <SavedHunts />
                 }
-                {(this.state.activeMenu=='newHunt' || this.state.activeMenu=='noActiveHunt' || (!this.state.activeHunt && this.state.activeMenu == 'activeHunt')) &&
+                {(activeMenu == 'newHunt') &&
                     <div style={{
                         paddingTop: "2%"
                     }}>
@@ -159,14 +106,14 @@ class Dashboard extends React.Component {
                         </div>
                     </div>
                 }
-                {this.state.activeMenu == 'newSteps' && huntID &&
+                {/* {activeMenu == 'newSteps' && huntID &&
 
                     <div>
                         <Step huntID={huntID} uid={uid} changeActiveMenu={ (activeMenu) => this.setState({activeMenu: activeMenu})}/>
                         <br /><br />
                         <HuntSteps huntID={huntID} uid={uid}/>
                     </div>
-                }
+                } */}
             </div>
         )
     }

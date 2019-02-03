@@ -1,7 +1,10 @@
 import React from 'react'
 import firebase from '../../firebase/firebase'
+import DashboardContext from './DashboardContext'
 
 class Navbar extends React.Component {
+
+    static contextType = DashboardContext
 
     signOutWithFirebase = () => {
         firebase.auth().signOut()
@@ -15,7 +18,9 @@ class Navbar extends React.Component {
 
     render() {
 
-        const { changeActiveMenu, activeMenu, activeHunt } = this.props
+        const { changeActiveMenu } = this.context
+
+        const { activeMenu, activeHunt } = this.context.state
 
         return (
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -27,7 +32,7 @@ class Navbar extends React.Component {
                 <div class="collapse navbar-collapse" id="navbarColor03">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class={(activeMenu=='activeHunt' || activeMenu=='noActiveMenu')?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu(activeHunt?'activeHunt':'noActiveHunt')}>Home<span class="sr-only">(current)</span></a>
+                            <a class={(activeMenu=='activeHunt' || activeMenu=='noActiveMenu')?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('activeHunt')}>Active Hunt<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class={activeMenu=='hunts'?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('hunts')}>Scavengar Hunts</a>
@@ -35,9 +40,9 @@ class Navbar extends React.Component {
                         <li class="nav-item">
                             <a class={(activeMenu=='newHunt' || activeMenu=='newSteps')?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('newHunt')}>New Hunt</a>
                         </li>
-                        <li class="nav-item">
+                        {/* <li class="nav-item">
                             <a class={activeMenu=='settings'?'nav-link active': 'nav-link'} onClick={ () => changeActiveMenu('settings')}>Settings</a>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 <button class="btn btn-secondary my-2 my-sm-0" onClick={this.signOutWithFirebase} >Sign Out</button>

@@ -1,38 +1,56 @@
 import React from 'react'
 import firebase from '../../firebase/firebase'
 import './dashboard.css'
+import DashboardContext from './DashboardContext'
 
 class ActiveHunt extends React.Component {
 
+    static contextType = DashboardContext
+
     state = {
         participants: null,
-        participantsLoaded: false
+        participantsLoaded: false,
+        status: null,
+        code: null
     }
 
     fetchParticipants = () => {
-        console.log(this.props.uid, this.props.activeHuntId)
-        if (!this.props.uid || !this.props.activeHuntId) {
+        const { uid, activeHuntId } = this.context.state
+        if (!uid || !activeHuntId) {
             return
         }
-        firebase.database().ref('users').child(this.props.uid).child('hunts/saved').child(this.props.activeHuntId)
+        firebase.database().ref('users').child(uid).child('hunts/saved').child(activeHuntId)
             .on('value', (snapShot) => {
-                console.log(snapShot.val())
                 this.setState({
                     participants: snapShot.child('participants').val(),
                     participantsLoaded: true,
                     steps: snapShot.child('steps').val()
-                }, () => console.log(this.state.participants, this.state.steps) )
+                })
+            })
+    }
+
+    fetchActiveHuntInfo = () => {
+        const { uid } = this.context.state
+        if (!uid) return
+        firebase.database().ref('users').child(uid).child('hunts/active')
+            .on('value', (snapShot) => {
+                this.setState({
+                    status: snapShot.child('status').val(),
+                    code: snapShot.child('hunt_code').val(),
+                })
             })
     }
 
     componentDidMount = () => {
         this.fetchParticipants()
-
+        this.fetchActiveHuntInfo()
     }
 
     render() {
 
-        const { displayName, participants, participantsLoaded, steps } = this.state
+        const { participants, participantsLoaded, steps } = this.state
+        const { displayName, activeHuntId } = this.context.state
+
         return (
             <div style={{
                 paddingTop: "2%"
@@ -42,8 +60,12 @@ class ActiveHunt extends React.Component {
                         <h1>Hello {displayName}</h1>
 
                         <br />
+
+                        {!activeHuntId &&
+                            <div>No active hunt. Initiate hunt to begin</div>
+                        }
                         
-                        {(participantsLoaded && participants) &&
+                        {(activeHuntId && participantsLoaded && participants) &&
                             <div>
                                 <h3>Participants: {Object.keys(participants).length}</h3>
                                 {Object.keys(participants).map((participant) => {

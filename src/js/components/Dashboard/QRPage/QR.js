@@ -1,5 +1,4 @@
 import React from 'react'
-import firebase from '../../firebase/firebase'
 
 class QRGen extends React.Component {
 

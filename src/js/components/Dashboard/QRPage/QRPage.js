@@ -1,15 +1,21 @@
 import React from 'react'
-import firebase from '../../firebase/firebase'
+import firebase from '../../../firebase/firebase'
 import QRGen from './QR'
+import DashboardContext from '../DashboardContext'
 
 class QRPage extends React.Component {
+
+    static contextType = DashboardContext
 
     state = {
         QR: null
     }
 
     fetchSteps = () => {
-        const { uid, huntID } = this.props
+        const { uid } = this.context.state
+
+        const { huntID } = this.props
+
         if(!uid || !huntID) {
             return
         }

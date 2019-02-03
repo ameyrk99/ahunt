@@ -1,8 +1,11 @@
 import React from 'react'
 import firebase from '../../firebase/firebase'
 import SavedHunt from './SavedHunt'
+import DashboardContext from './DashboardContext';
 
 class SavedHunts extends React.Component {
+
+    static contextType = DashboardContext
 
     state = {
         savedHunts: null,
@@ -10,7 +13,8 @@ class SavedHunts extends React.Component {
     }
 
     fetchHunts = () => {
-        const { uid } = this.props
+        const { uid } = this.context.state
+        
         if (!uid) {
             return
         }
@@ -31,7 +35,6 @@ class SavedHunts extends React.Component {
 
         // const {huntName, huntDes, huntSteps, huntCreated, huntCreationFail} = this.state
         const { savedHunts } = this.state
-        const { uid } = this.props
 
         return (
             <div style={{ paddingTop: "2%" }}>
@@ -42,9 +45,9 @@ class SavedHunts extends React.Component {
                                 key={i} 
                                 huntId={savedHunts[hunt].id} 
                                 huntName={savedHunts[hunt].hunt_name} 
-                                huntDes={savedHunts[hunt].hunt_description} 
-                                uid={uid} 
-                                /> 
+                                huntDes={savedHunts[hunt].hunt_description}
+                                huntParticipants={savedHunts[hunt].participants}
+                                huntSteps={savedHunts[hunt].steps} /> 
                         )
                     })}
             </div>
