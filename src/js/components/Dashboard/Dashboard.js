@@ -63,7 +63,7 @@ class Dashboard extends React.Component {
 
         const { displayName, activeHuntId, signedOut, huntID, activeHunt, huntName, huntDes } = this.state
 
-        const { activeMenu, uid } = this.context.state
+        const { activeMenu, uid, checkedIfActiveHunt } = this.context.state
 
         if (signedOut) {
             return <Redirect push to="/" />
@@ -72,7 +72,7 @@ class Dashboard extends React.Component {
         return (
             <div>
                 <Navbar />
-                {activeMenu == 'activeHunt' &&
+                {activeMenu == 'activeHunt' && uid && checkedIfActiveHunt && //needs uid because browser takes too long to read it from localstorage
                     <ActiveHunt />
                 }
                 {activeMenu == 'hunts' &&
