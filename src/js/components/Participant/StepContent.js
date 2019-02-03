@@ -31,7 +31,7 @@ class StepContent extends React.Component {
                                             <div>{stepContent.feedback}</div>
                                             <img src={stepContent.image ? stepContent.image.url : null} />
                                             <div>Step #: {stepContent.order}</div>
-                                            <div>People Who Completed: {stepContent.completed ? Object.keys(stepContent.completed).length : 0}</div>
+                                            <div>People Who Have Gone this Far: {stepContent.completed ? Object.keys(stepContent.completed).length : 0}</div>
                                             <br/>
                                             {stepContent.hint && <div>Next Hint: {stepContent.hint} </div>}
                                             <br/><br/>

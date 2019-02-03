@@ -137,7 +137,7 @@ export const startHunt = functions.https.onRequest((request, response) => {
                 hunt_code: huntCode,
                 status: 'initiated'
             })
-            .then( () => {
+            .then(() => {
                 const activeHuntId = admin.database().ref('active_hunts').push().key
                 return admin.database().ref('active_hunts').child(activeHuntId)
                     .update({
@@ -145,15 +145,50 @@ export const startHunt = functions.https.onRequest((request, response) => {
                         hunt_id: huntId,
                         code: huntCode,
                     })
-                    .then( () => {
+                    .then(() => {
                         console.log('hunt is not active. Code: ', huntCode)
                         return response.status(200).send(huntCode)
                     })
 
-            } )
+            })
 
-            return null
+        return null
 
     })
 
 })
+
+
+export const addTimeCompletionOfStep = functions.database.ref('/users/{uid}/hunts/saved/{activeHunt}/participants/{participant}/current_step_order')
+    .onWrite(async (change, context) => {
+
+        if (!change.after.exists()) {
+            return null
+        }
+
+        //check if active hunt
+        const uid = context.params.uid
+        const activeHunt = context.params.activeHunt
+
+        try {
+            const activeHuntSnapshot = await admin.database().ref('users').child(uid).child('hunts/active').once('value')
+            if (activeHuntSnapshot.exists()) {
+                const foundActiveHunt = activeHuntSnapshot.child('hunt_id').val()
+                if (!foundActiveHunt || foundActiveHunt != activeHunt) {
+                    console.log('This is not an active hunt')
+                    return null
+                }
+            }
+        }
+        catch (error) {
+            console.log('unable to check if hunt is active or not', error)
+        }
+
+
+        const participant = context.params.participant
+        const currentStepOrder = change.after.val()
+
+        return admin.database().ref('users').child(uid).child('hunts/saved').child(activeHunt).child('participants').child(participant).child('time_completion')
+            .update({ [currentStepOrder]: new Date().toISOString() })
+
+    })

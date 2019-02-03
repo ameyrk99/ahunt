@@ -7,4 +7,5 @@ admin.initializeApp();
 exports.addUserToDatabase = Users_1.addUserToDatabase;
 exports.checkCode = Hunt_1.checkCode;
 exports.startHunt = Hunt_1.startHunt;
+exports.addTimeCompletionOfStep = Hunt_1.addTimeCompletionOfStep;
 //# sourceMappingURL=index.js.map

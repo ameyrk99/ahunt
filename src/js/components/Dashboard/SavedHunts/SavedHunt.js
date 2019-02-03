@@ -24,8 +24,6 @@ class SavedHunt extends React.Component {
             buttonAction: '...'
         })
 
-        console.log(uid, huntId)
-
         axios.get('https://us-central1-kahunt-218617.cloudfunctions.net/startHunt', {
             params: {
                 uid: uid,
@@ -34,7 +32,6 @@ class SavedHunt extends React.Component {
         })
             .then((response) => {
                 if (response.data) {
-                    console.log(response.data)
                     this.setState({
                         code: response.data,
                         checkingCode: false,
@@ -114,7 +111,6 @@ class SavedHunt extends React.Component {
         const { uid } = this.context.state
         firebase.database().ref('users').child(uid).child('hunts/active')
             .on('value', (snapshot) => {
-                console.log(snapshot.child('hunt_id').val(), this.props.huntId)
                 if (snapshot.child('hunt_id').val() == this.props.huntId) {
                     const status = snapshot.child('status').val()
                     let buttonAction

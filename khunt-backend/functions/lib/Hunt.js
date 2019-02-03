@@ -139,4 +139,30 @@ exports.startHunt = functions.https.onRequest((request, response) => {
         return null;
     }));
 });
+exports.addTimeCompletionOfStep = functions.database.ref('/users/{uid}/hunts/saved/{activeHunt}/participants/{participant}/current_step_order')
+    .onWrite((change, context) => __awaiter(this, void 0, void 0, function* () {
+    if (!change.after.exists()) {
+        return null;
+    }
+    //check if active hunt
+    const uid = context.params.uid;
+    const activeHunt = context.params.activeHunt;
+    try {
+        const activeHuntSnapshot = yield admin.database().ref('users').child(uid).child('hunts/active').once('value');
+        if (activeHuntSnapshot.exists()) {
+            const foundActiveHunt = activeHuntSnapshot.child('hunt_id').val();
+            if (!foundActiveHunt || foundActiveHunt != activeHunt) {
+                console.log('This is not an active hunt');
+                return null;
+            }
+        }
+    }
+    catch (error) {
+        console.log('unable to check if hunt is active or not', error);
+    }
+    const participant = context.params.participant;
+    const currentStepOrder = change.after.val();
+    return admin.database().ref('users').child(uid).child('hunts/saved').child(activeHunt).child('participants').child(participant).child('time_completion')
+        .update({ [currentStepOrder]: new Date().toISOString() });
+}));
 //# sourceMappingURL=Hunt.js.map

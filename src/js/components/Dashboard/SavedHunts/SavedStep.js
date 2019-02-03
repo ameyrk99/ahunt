@@ -66,6 +66,14 @@ class SavedStep extends React.Component {
 
     }
 
+    deleteStep = () => {
+        const { stepId, huntId } = this.props
+        const { uid } = this.context.state
+
+        firebase.database().ref("users").child(uid).child("hunts").child("saved").child(huntId).child('steps').child(stepId).remove()
+            .catch( (error) => console.log(error))
+    }
+
     cancelChanges = () => {
         const { title, hint, feedback } = this.props
 
@@ -121,6 +129,7 @@ class SavedStep extends React.Component {
 
                 <button onClick={this.makeChanges}>{editMode ? (changesMade ? 'Update' : 'Edit') : 'Edit'}</button>
                 {editMode && <button onClick={this.cancelChanges}>Cancel</button> }
+                <button onClick={this.deleteStep}>Delete</button>
 
             </div>
         )
