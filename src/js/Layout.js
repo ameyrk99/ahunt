@@ -6,6 +6,9 @@ import Login from './components/Login/Login'
 import Dashboard from "./components/Dashboard/Dashboard"
 import Participant from './components/Participant/Participant'
 import './bootstrap.css'
+import DashboardProvider from "./components/Dashboard/DashboardProvider";
+
+const DashboardLayout = () => <DashboardProvider> <Dashboard /> </DashboardProvider>
 
 const Layout = () =>
 
@@ -15,7 +18,7 @@ const Layout = () =>
             <Route path='/' exact component={HomePage} />
             <Route path='/login' exact component={Login} />
             <Route path='/register' exact component={Register} />
-            <Route path='/dashboard' exact component={Dashboard} />
+            <Route path='/dashboard' exact component={DashboardLayout} />
         </Switch>
     </HashRouter>
 

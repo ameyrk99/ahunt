@@ -8,6 +8,7 @@ class Login extends React.Component {
         email: '',
         password: '',
         loading: false,
+	wantsRegister: false,
         authenticationFail: false,
         authenticationFailMessage: null,
         authenticationSuccess: false
@@ -94,10 +95,13 @@ class Login extends React.Component {
 
     render() {
 
-        const { email, password, authenticationSuccess } = this.state
+        const { email, password, authenticationSuccess, wantsRegister } = this.state
 
         if (authenticationSuccess) {
             return <Redirect push to="/dashboard" />
+        }
+	if (wantsRegister) {
+            return <Redirect push to="/register" />
         }
 
         return (
@@ -132,8 +136,7 @@ class Login extends React.Component {
                                         </div>
                                         <div className="col-sm-2">
                                             <button
-                                                type="button"
-                                                value="Redirect To Register"
+                                                onClick={ () => this.setState({wantsRegister: true})}
                                                 className="btn btn-success rounded">
                                                 Register
                                             </button>
