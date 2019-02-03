@@ -1,7 +1,10 @@
 import React from 'react'
 import firebase from '../../firebase/firebase'
+import DashboardContext from './DashboardContext'
 
 class CreateHunt extends React.Component {
+
+    static contextType = DashboardContext
 
     state = {
         huntName: '',
@@ -11,9 +14,11 @@ class CreateHunt extends React.Component {
     }
 
     submitForm = () => {
-        // console.log("Hunt Created")
-        const {uid, huntName, huntDes} = this.state
-        console.log(this.props)
+        const { uid } = this.context.state
+        const {huntName, huntDes} = this.state
+
+        if (!uid) return
+
         const ref = firebase.database().ref("users").child(uid).child("hunts").child("saved")
         const huntId = ref.push().key
 
@@ -27,8 +32,8 @@ class CreateHunt extends React.Component {
                 huntCreated: true
             })
 
-            this.props.setHuntID(huntId)
-            this.props.goToCreatingSteps()
+            // this.props.setHuntID(huntId)
+            // this.props.goToCreatingSteps()
 
             console.log(huntId)
         })
@@ -87,7 +92,7 @@ class CreateHunt extends React.Component {
                                     <textarea class="form-control" value={huntDes} name="huntDes" onChange={e => this.handleChange(e)} placeholder="Hunt Description" rows="3"></textarea>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary" onClick={this.submitForm.bind(this)}>Submit</button>
+                            <button type="button" class="btn btn-primary" onClick={this.submitForm}>Submit</button>
                         </fieldset>
                     </form>
                     <br/><br/>

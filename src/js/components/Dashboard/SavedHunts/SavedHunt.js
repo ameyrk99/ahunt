@@ -1,8 +1,9 @@
 import React from 'react'
 import axios from 'axios'
-import QRPage from "./QRPage/QRPage"
-import firebase from '../../firebase/firebase'
-import DashboardContext from './DashboardContext'
+import QRPage from "../QRPage/QRPage"
+import firebase from '../../../firebase/firebase'
+import DashboardContext from '../DashboardContext'
+import SavedStep from './SavedStep'
 
 class SavedHunt extends React.Component {
 
@@ -12,7 +13,8 @@ class SavedHunt extends React.Component {
         checkingCode: false,
         code: null,
         status: null,
-        buttonAction: 'Initiate'
+        buttonAction: 'Initiate',
+        showSteps: false
     }
 
     initiateHunt = (uid, huntId) => {
@@ -97,7 +99,7 @@ class SavedHunt extends React.Component {
         const { huntId } = this.props
 
         firebase.database().ref('users').child(uid).child('hunts/saved').child(huntId).child('participants').remove()
-            .catch( (error) => console.log('unable to delete participants', error))
+            .catch((error) => console.log('unable to delete participants', error))
     }
 
     deleteHunt = () => {
@@ -105,7 +107,7 @@ class SavedHunt extends React.Component {
         const { huntId } = this.props
 
         firebase.database().ref('users').child(uid).child('hunts/saved').child(huntId).remove()
-            .catch( (error) => console.log('unable to delete hunt', error))
+            .catch((error) => console.log('unable to delete hunt', error))
     }
 
     fetchCodeAndStatus = () => {
@@ -140,12 +142,18 @@ class SavedHunt extends React.Component {
         this.fetchCodeAndStatus()
     }
 
+    componentWillUnmount = () => {
+        const { uid } = this.context.state
+        const ref = firebase.database().ref('users').child(uid).child('hunts/active')
+        ref.off('value')
+    }
+
     render() {
 
         // const {huntName, huntDes, huntSteps, huntCreated, huntCreationFail} = this.state
         const { huntName, huntDes, huntId, huntParticipants, huntSteps } = this.props
 
-        const { checkingCode, code, buttonAction } = this.state
+        const { checkingCode, code, buttonAction, showSteps } = this.state
 
         return (
             <div className="container">
@@ -155,28 +163,56 @@ class SavedHunt extends React.Component {
                 }}>
                     <div className="row">
                         <div className="col-md-1"></div>
-                        <div className="col-md-8">
+                        <div className="col-md-6">
                             <h3>{huntName}</h3>
                             <p>{huntDes}</p>
                             <QRPage huntID={huntId} />
-                            {huntSteps && <div>{Object.keys(huntSteps).length} Steps</div>}
+
+                            {huntSteps &&
+                                <div>
+                                    <div>{Object.keys(huntSteps).length} Steps</div>
+                                    <button onClick={() => this.setState({ showSteps: !showSteps })}>{showSteps ? 'Hide' : 'Show'} Steps</button>
+
+                                    {showSteps && Object.keys(huntSteps).map((step) => {
+                                        return (
+                                            <div key={huntSteps[step].id}>
+
+                                                <SavedStep
+                                                    title={huntSteps[step].title}
+                                                    hint={huntSteps[step].hint}
+                                                    feedback={huntSteps[step].feedback}
+                                                    huntId={huntId}
+                                                    stepId={huntSteps[step].id} />
+
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+
+
+                            }
                             {huntParticipants && (!status || status == 'ended') &&
                                 <div>
                                     <h5>Previous Participants</h5>
-                                    {Object.keys(huntParticipants).map( (participant) => {
+                                    {Object.keys(huntParticipants).map((participant) => {
                                         return (
                                             <div key={huntParticipants[participant].id}>
                                                 <h6>{huntParticipants[participant].name}</h6>
                                             </div>
                                         )
                                     })}
-                                </div>   
+                                    <button onClick={this.resetParticipation}>Reset Participation</button>
+                                </div>
                             }
 
                         </div>
                         {code && (buttonAction != 'Initiate' || buttonAction != 'End') &&
                             <div>Code: {code}</div>
                         }
+
+                        <div className="col-md-2">
+                            <button onClick={this.deleteHunt}>Delete Hunt</button>
+                        </div>
 
                         <div className="col-md-2">
                             <button

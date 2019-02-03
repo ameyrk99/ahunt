@@ -8,10 +8,11 @@ import Navbar from './Navbar'
 // import CreateHunt from './CreateHunt'
 import HuntSteps from './HuntSteps'
 import Step from './Step'
-import SavedHunts from './SavedHunts'
+import SavedHunts from './SavedHunts/SavedHunts'
 
 import './dashboard.css'
 import DashboardContext from './DashboardContext'
+import CreateHunt from './CreateHunt';
 
 
 class Dashboard extends React.Component {
@@ -81,7 +82,8 @@ class Dashboard extends React.Component {
                     <div style={{
                         paddingTop: "2%"
                     }}>
-                        <div className="container">
+                    <CreateHunt />
+                        {/* <div className="container">
                             <div className="jumbotron">
                             <form>
                                 <fieldset>
@@ -103,7 +105,7 @@ class Dashboard extends React.Component {
                             </form>
                             <br/><br/>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 }
                 {/* {activeMenu == 'newSteps' && huntID &&

@@ -1,7 +1,7 @@
 import React from 'react'
-import firebase from '../../firebase/firebase'
+import firebase from '../../../firebase/firebase'
 import SavedHunt from './SavedHunt'
-import DashboardContext from './DashboardContext';
+import DashboardContext from '../DashboardContext';
 
 class SavedHunts extends React.Component {
 
@@ -29,6 +29,12 @@ class SavedHunts extends React.Component {
 
     componentDidMount = () => {
         this.fetchHunts()
+    }
+
+    componentWillUnmount = () => {
+        const { uid } = this.context.state
+        const ref = firebase.database().ref("users").child(uid).child("hunts").child("saved")
+        ref.off('value')
     }
 
     render() {
