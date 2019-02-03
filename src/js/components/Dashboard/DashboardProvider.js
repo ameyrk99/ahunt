@@ -1,6 +1,7 @@
 import React from 'react'
 import DashboardContext from './DashboardContext'
 import firebase from '../../firebase/firebase'
+import { Redirect } from 'react-router-dom'
 
 class DashboardProvider extends React.Component {
     state = {
@@ -120,6 +121,10 @@ class DashboardProvider extends React.Component {
     }
 
     render() {
+        if (this.state.signedOut) {
+            return <Redirect push to="/" />
+        }
+
         return (
             <DashboardContext.Provider
                 value={

@@ -68,6 +68,8 @@ class ActiveHunt extends React.Component {
         this.fetchActiveHuntInfo()
     }
 
+    
+
     render() {
 
         const { participants, participantsLoaded, steps, status, code, huntName } = this.state

@@ -12,7 +12,7 @@ const DashboardLayout = () => <DashboardProvider> <Dashboard /> </DashboardProvi
 
 const Layout = () =>
 
-    <HashRouter>
+    <BrowserRouter>
         <Switch>
             <Route path='/participant' exact component={Participant} />
             <Route path='/' exact component={HomePage} />
@@ -20,6 +20,6 @@ const Layout = () =>
             <Route path='/register' exact component={Register} />
             <Route path='/dashboard' exact component={DashboardLayout} />
         </Switch>
-    </HashRouter>
+    </BrowserRouter>
 
 export default Layout
