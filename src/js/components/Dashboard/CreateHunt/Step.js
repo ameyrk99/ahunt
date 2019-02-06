@@ -82,38 +82,38 @@ class Step extends React.Component {
                         <form>
                             <fieldset>
                                 <legend>Create Step</legend>
-                                <div class="form-group row">
-                                    <label for="stepName" class="col-sm-2 col-form-label">Name</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="stepName" value={stepName} onChange={e => this.handleChange(e)} placeholder="Step Name" />
+                                <div className="form-group row">
+                                    <label for="stepName" className="col-sm-2 col-form-label">Name</label>
+                                    <div className="col-sm-10">
+                                        <input type="text" className="form-control" name="stepName" value={stepName} onChange={e => this.handleChange(e)} placeholder="Step Name" />
                                     </div>
                                 </div>
 
-                                {/* <div class="form-group">
-                                <input type="file" class="form-control-file" name="stepImage" aria-describedby="fileHelp"/>
-                                <small id="fileHelp" class="form-text text-muted">Image for the step</small>
+                                {/* <div className="form-group">
+                                <input type="file" className="form-control-file" name="stepImage" aria-describedby="fileHelp"/>
+                                <small id="fileHelp" className="form-text text-muted">Image for the step</small>
                             </div> */}
 
-                                <div class="form-group row">
-                                    <label for="feedback" class="col-sm-2 col-form-label">Feedback</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="stepFeedback" value={stepFeedback} onChange={e => this.handleChange(e)} placeholder="Passed Step Feedback" />
+                                <div className="form-group row">
+                                    <label for="feedback" className="col-sm-2 col-form-label">Feedback</label>
+                                    <div className="col-sm-10">
+                                        <input type="text" className="form-control" name="stepFeedback" value={stepFeedback} onChange={e => this.handleChange(e)} placeholder="Passed Step Feedback" />
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="hint" class="col-sm-2 col-form-label">Final Step</label>
-                                    <div class="col-sm-10">
-                                        <input type="checkbox" class="form-control" name="finalStep" value={finalStep} onChange={() => this.setState({ finalStep: !finalStep })} placeholder="Final Step" rows="3"></input>
+                                <div className="form-group row">
+                                    <label for="hint" className="col-sm-2 col-form-label">Final Step</label>
+                                    <div className="col-sm-1">
+                                        <input type="checkbox" className="form-control" name="finalStep" value={finalStep} onChange={() => this.setState({ finalStep: !finalStep })} placeholder="Final Step" rows="3"></input>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="hint" class="col-sm-2 col-form-label">Hint for Next Step</label>
-                                    <div class="col-sm-10">
-                                        <textarea disabled={finalStep} class="form-control" name="stepHint" value={stepHint} onChange={e => this.handleChange(e)} placeholder="Step Hint" rows="3"></textarea>
+                                <div className="form-group row">
+                                    <label for="hint" className="col-sm-2 col-form-label">Hint for Next Step</label>
+                                    <div className="col-sm-10">
+                                        <textarea disabled={finalStep} className="form-control" name="stepHint" value={stepHint} onChange={e => this.handleChange(e)} placeholder="Step Hint" rows="3"></textarea>
                                     </div>
                                 </div>
 
-                                <button type="button" class="btn btn-primary" onClick={this.submitStep}>{finalStep ? 'Finish' : 'Add Step'}</button>
+                                <button type="button" className="btn btn-primary" onClick={this.submitStep}>{finalStep ? 'Finish' : 'Add Step'}</button>
 
                             </fieldset>
                         </form>
