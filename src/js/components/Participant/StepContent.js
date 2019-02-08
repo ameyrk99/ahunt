@@ -27,14 +27,28 @@ class StepContent extends React.Component {
                                     }
                                     {stepContentLoaded &&
                                         <div>
-                                            <h4>{stepContent.title}</h4>
-                                            <div>{stepContent.feedback}</div>
+                                            <h2> <strong> {stepContent.title} </strong> </h2>
+                                            <span class="badge badge-pill badge-info">This is Step {stepContent.order} </span>
+                                            <br /> <br />
+                                            <div class="alert alert-secondary">
+                                                <strong> {stepContent.feedback} </strong>
+                                            </div>
+                                            {/* <div>{stepContent.feedback}</div> */}
                                             <img src={stepContent.image ? stepContent.image.url : null} />
-                                            <div>Step #: {stepContent.order}</div>
-                                            <div>People Who Have Gone this Far: {stepContent.completed ? Object.keys(stepContent.completed).length : 0}</div>
-                                            <br/>
-                                            {stepContent.hint && <div>Next Hint: {stepContent.hint} </div>}
-                                            <br/><br/>
+
+                                            {/* <div>Step #: {stepContent.order}</div> */}
+                                            <div class="alert alert-dismissible alert-light">
+                                                <strong>{stepContent.completed ? Object.keys(stepContent.completed).length : 0} Players</strong> already went this far
+                                            </div>
+                                            {/* <div>People Who Have Gone this Far: </div> */}
+                                            <br />
+                                            {stepContent.hint &&
+                                                <div class="alert alert-success">
+                                                    <strong>Next Hint: </strong> {stepContent.hint}
+                                                </div>
+                                                // <div>Next Hint: {stepContent.hint} </div>
+                                            }
+                                            <br /><br />
                                             {stepContent.order != huntSteps &&
                                                 <button
                                                     onClick={onContinueHunt}

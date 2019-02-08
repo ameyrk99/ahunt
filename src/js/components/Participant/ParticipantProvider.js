@@ -23,6 +23,7 @@ class ParticipantProvider extends React.Component {
         qrReadError: false,
 
         stepId: null,
+        nextStepId: null,
         stepContent: null,
         stepContentLoaded: false,
         stepContentLoading: false,
@@ -31,7 +32,9 @@ class ParticipantProvider extends React.Component {
         participantName: null,
 
         deletedStorageDataAfterEnded: false,
-        inDeleteCountdownSequence: false
+        inDeleteCountdownSequence: false,
+
+        wrongQrCode: false
 
     }
 
@@ -84,16 +87,26 @@ class ParticipantProvider extends React.Component {
         firebase.database().ref('users').child(this.state.huntCreatorId).child('hunts').child('active/status')
             .on('value', (snapshot) => {
                 this.setState({ huntStatus: snapshot.val() })
+            
             })
     }
 
     handleQrData = (stepId) => {
+
         if (stepId) {
             console.log(stepId)
-            const { previousStepId } = this.state
-            this.setState({
-                stepId: stepId,
-            }, () => this.fetchStepContent())
+            const { nextStepId } = this.state
+            console.log('next step id from handle qr data', nextStepId)
+
+            if (nextStepId && stepId != nextStepId) {
+                console.log('not next step')
+                this.setState({ wrongQrCode: true }, () => {
+                    setTimeout( () => this.setState({ wrongQrCode: false }), 2000)
+                })
+                return
+            }
+
+            this.setState({stepId: stepId}, () => this.fetchStepContent())
         }
         else {
             console.log('stepId is null')
@@ -171,9 +184,10 @@ class ParticipantProvider extends React.Component {
         firebase.database().ref('users').child(huntCreatorId).child('hunts').child('saved').child(huntId).child('steps').child(stepId)
             .once('value')
             .then((snapshot) => {
-                console.log(snapshot.val())
+                console.log('step content from fetch Content', snapshot.val())
                 this.setState({
                     stepContent: snapshot.val(),
+                    nextStepId: snapshot.child('next_step_id').val(),
                     stepContentLoaded: true,
                     stepContentLoading: false
                 }, () => this.updateProgress())
@@ -237,7 +251,9 @@ class ParticipantProvider extends React.Component {
 
                         onContinueHunt: () => this.onContinueHunt(),
 
-                        addName: (name) => this.addName(name)
+                        addName: (name) => this.addName(name),
+
+                        dismissWrongCodeAlert: () => this.setState({ wrongQrCode: false })
 
                     }
                 }>

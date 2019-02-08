@@ -34,12 +34,12 @@ class Welcome extends React.Component {
                                 padding: "2%",
                                 paddingTop: "5%",
                             }}>
-                                <div>Hunt {huntName}</div>
-                                <label>By {huntCreatorName}</label>
-                                <div>Number of Steps: {huntSteps}</div><br />
+                                <h3>Welcome to <strong> {huntName} </strong> </h3>
+                                <label>Created by {huntCreatorName}</label>
+                                <div>Number of Steps in this Hunt: <strong> {huntSteps} </strong></div> <br /> <br />
 
                                 {participantName ?
-                                    <div>{participantName}</div>
+                                    <h4> <strong> {participantName} </strong> </h4>
                                     :
                                     <div>
                                         <div class="form-group">
@@ -53,7 +53,7 @@ class Welcome extends React.Component {
                                     </div>
                                 }<br /><br />
 
-                                <div>Waiting to Start...</div>
+                                <div>You are all set. <strong> Waiting to Start... </strong> </div>
                             </div>
                         </div>
                     )

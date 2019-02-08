@@ -192,3 +192,54 @@ export const addTimeCompletionOfStep = functions.database.ref('/users/{uid}/hunt
             .update({ [currentStepOrder]: new Date().toISOString() })
 
     })
+
+    export const addNextStepIdToPreviousStep = functions.database.ref('/users/{uid}/hunts/saved/{createdHunt}/steps/{currentStep}/order')
+    .onWrite(async (change, context) => {
+
+        if (!change.after.exists()) {
+            return null
+        }
+
+        const currentStep = change.after.val()
+
+        if (currentStep == 1) {
+            console.log('First step created. No other steps yet')
+            return null
+        }
+
+        const createdHunt = context.params.createdHunt
+        const uid = context.params.uid
+        const currentStepId = context.params.currentStep
+
+        try {
+            let previousStepId
+            const stepsSnapshot = await admin.database().ref('users').child(uid).child('hunts/saved').child(createdHunt).child('steps').once('value')
+            stepsSnapshot.forEach( (stepSnapshot) => {
+
+                if (stepSnapshot.key == currentStepId) return false
+
+                else if (stepSnapshot.child('order').val() == currentStep - 1) {
+                    previousStepId = stepSnapshot.key
+                    return true
+                }
+
+                return false
+            })
+
+            if (previousStepId) {
+                return admin.database().ref('users').child(uid).child('hunts/saved').child(createdHunt).child('steps').child(previousStepId).update({
+                    next_step_id: currentStepId
+                })
+            }
+            else {
+                console.log('could not find previous stepId')
+                return null
+            }
+
+        }
+        catch (error) {
+            console.log('unable to find previous step and adding a next step id', error)
+            return null
+        }
+
+    })

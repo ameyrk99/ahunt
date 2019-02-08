@@ -99,6 +99,14 @@ class SavedHunt extends React.Component {
 
         firebase.database().ref('users').child(uid).child('hunts/saved').child(huntId).child('participants').remove()
             .catch((error) => console.log('unable to delete participants', error))
+        
+        // firebase.database().ref('users').child(uid).child('hunts/saved').child(huntId).child('steps').once('value')
+        //     .then( (stepsSnapshot) => {
+        //         stepsSnapshot.forEach( (stepSnapshot) => {
+        //             stepSnapshot.child('completed').remove()
+        //                 .catch( (error) => console.l)
+        //         })
+        //     })
     }
 
     deleteHunt = () => {

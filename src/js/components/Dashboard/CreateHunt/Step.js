@@ -25,7 +25,7 @@ class Step extends React.Component {
             return
         }
 
-        if (stepName.trim() == '' || stepHint.trim() == '' || feedback.trim() == '') return
+        if (stepName.trim() == '' || stepHint.trim() == '' || stepFeedback.trim() == '') return
 
         const ref = firebase.database().ref("users").child(uid).child("hunts").child("saved").child(huntId).child('steps')
         const stepId = ref.push().key

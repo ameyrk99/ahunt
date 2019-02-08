@@ -22,7 +22,7 @@ class CodeEnter extends React.Component {
                 {value => {
 
                     const { submitCode, codeSubmitted } = value
-                    const { isCodeValid } = value.state
+                    const { isCodeValid, checkingCode } = value.state
 
                     return (
                         <div className="container">
@@ -45,7 +45,7 @@ class CodeEnter extends React.Component {
                                         <input type="text" class="form-control rounded" name="code" value={code} placeholder="Code" onChange={e => this.handleChange(e)}/>
                                 </div>
                                 <button
-                                    disabled={!code || code == ''}
+                                    disabled={!code || code == '' || checkingCode}
                                     onClick={() => submitCode(code)} class="btn btn-primary rounded">
                                     Join
                                 </button>

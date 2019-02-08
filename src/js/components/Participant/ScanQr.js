@@ -15,7 +15,8 @@ class ScanQr extends React.Component {
             <ParticipantContext.Consumer>
                 {value => {
 
-                    const { handleQrData, handleQrReadError } = value
+                    const { handleQrData, handleQrReadError, dismissWrongCodeAlert } = value
+                    const { wrongQrCode, stepContentLoading, stepContent } = value.state
 
                     return (
                         <div>
@@ -31,19 +32,29 @@ class ScanQr extends React.Component {
                             <h4 style={{
                                 color: "white",
                                 textAlign: "center"
-                            }}>Scan QR</h4>
-                            <div className="jumbotron">
-                                <QrReader
-                                    delay={delay}
-                                    onError={(error) => handleQrReadError(error)}
-                                    onScan={(data) => handleQrData(data)}
-                                    style={{ width: "100%" }}
-                                />
-                            </div>
-                            <h4 style={{
-                                color: "white",
-                                textAlign: "center"
-                            }}>To get hint for the next location</h4>
+                            }}>Point at QR Code</h4>
+
+                            {wrongQrCode &&
+                                <div class="alert alert-dismissible alert-danger">
+                                    <button type="button" class="close" onClick={() => dismissWrongCodeAlert()} data-dismiss="alert">&times;</button>
+                                    <strong>Wrong QR Code</strong> This is not the next step
+                                    {stepContent && stepContent.hint && <div>Remember: <strong>{stepContent.hint}</strong> </div>}
+                                </div>
+                            }
+                            
+                            {stepContentLoading ?
+                                <h2>Loading Step...</h2>
+                                :
+                                <div className="jumbotron">
+                                    <QrReader
+                                        delay={delay}
+                                        onError={(error) => handleQrReadError(error)}
+                                        onScan={(data) => handleQrData(data)}
+                                        style={{ width: "100%" }}
+                                    />
+                                </div>
+                            }
+
                         </div>
                     )
                 }}
